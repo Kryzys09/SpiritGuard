@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Log in{% endblock %}
+{% block content %}
+    
+    <div class="center-content full-height">    
+        <h2>Spirit Guard</h2>
+        <img src="{% static 'gfx/logo.png'%}" style="height:auto">
+        <form action="/postsign/" method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class='input-field'>
+                    <input type="email" id="email-input" name="email">
+                    <label for="email-input">E-mail</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field">
+                    <input type="password" id="password-input" name="password">
+                    <label for="password-input">Password</label>
+                </div>
+            </div>
+            {% if error %}
+                <div class="row">
+                    <div class="col s12">
+                        <div class="alert error">{{error}}</div>
+                    </div>
+                </div>
+            {% endif %}
+            {% if message %}
+                <div class="row">
+                    <div class="col s12">
+                        <div class="alert success">{{message}}</div>
+                    </div>
+                </div>
+            {% endif %}
+            <div class="center-content">
+                <button class="btn waves-effect waves-light" type="submit" name="action">
+                    Submit
+                </button>
+            </div>
+        </form>
+        <a href="/register/" style="margin-top:1em">Don't have an account?<b> Create one!</b></a>
+    </div>
+{% endblock %}

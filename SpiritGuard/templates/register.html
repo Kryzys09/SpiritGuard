@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Register{% endblock %}
+{% block content %}
+    <div class="center-content full-height">    
+        <h3>Create new account</h3>
+        <form action="/postRegister/" method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class='input-field'>
+                    <input type="email" id="email-input" name="email">
+                    <label for="email-input">E-mail</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field">
+                    <input type="password" id="password-input" name="password">
+                    <label for="password-input">Password</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field">
+                    <input type="password" id="password-confirm-input" name="password-confirm">
+                    <label for="password-confirm-input">Password confirmation</label>
+                </div>
+            </div>
+            <div class="center-content">
+                <button class="btn waves-effect waves-light" type="submit" name="action">
+                    Submit
+                </button>
+            </div>
+        </form>
+        </div>
+{% endblock %}

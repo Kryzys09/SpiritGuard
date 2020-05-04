@@ -1,0 +1,21 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Spirit Guard - {% block title %}{% endblock %}</title>
+    <link href="{% static '/css/materialize.min.css' %}" rel="stylesheet">
+    <link href="{% static '/css/main.css' %}" rel="stylesheet">
+    <script src="{% static '/js/materialize.min.js' %}"></script>
+</head>
+
+<body>
+    <div class="container full-height">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+
+</html>
