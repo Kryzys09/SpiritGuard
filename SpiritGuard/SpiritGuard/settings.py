@@ -45,6 +45,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'SpiritGuard.middleware.simple_middleware.simple_middleware'
 ]
 
 ROOT_URLCONF = 'SpiritGuard.urls'
