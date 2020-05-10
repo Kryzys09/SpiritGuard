@@ -1,0 +1,7 @@
+{% load static %}
+<link href="{% static '/css/friends-list.css' %}" rel="stylesheet">
+<div class="friends-list">
+    {% for friend in friends %}
+        {% include 'friends/friend.html' %}
+    {% endfor %}
+</div>

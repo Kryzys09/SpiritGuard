@@ -1,6 +1,7 @@
 import pyrebase
 from django.shortcuts import render
 from requests.exceptions import HTTPError
+from SpiritGuard.friends.mock_friends import get_mock_friends
 
 config = {
     "apiKey": "AIzaSyD8KdT5yIQgYks6F-rXdIFUvjaIOZd1S4M",
@@ -29,7 +30,7 @@ def send_log_in_request(request):
         print(e)
         return render(request, "logIn.html", {"error": "Invalid credentials"})
     print(request.POST)
-    return render(request, "welcome.html", {"email": email})
+    return render(request, "welcome.html", {"email": email, "friends": get_mock_friends()})
 
 
 def render_register_page(request):
