@@ -1,0 +1,27 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Spirit Guard - {% block title %}{% endblock %}</title>
+    <meta charset="UTF-8">
+    <link href="{% static '/css/friends.css' %}" rel="stylesheet">
+    <link href="{% static '/css/materialize.min.css' %}" rel="stylesheet">
+    <script src="{% static '/js/materialize.min.js' %}"></script>
+</head>
+
+<body>
+<div class="fp">
+    <div class="hdr-flx">
+        <div class="hdr">
+            <img src="{% static '/gfx/logo.png' %}">
+            <span>Friends panel</span>
+        </div>
+        <hr class="hdr-content-separator">
+    </div>
+    {% include 'friends/friends_list.html' %}
+</div>
+</body>
+
+</html>
