@@ -5,6 +5,7 @@ from SpiritGuard.model.user import User
 USERS_NODE = 'users'
 PENDING_INVITATIONS_NODE = 'pending_invitations'
 SENT_INVITATIONS_NODE = 'sent_invitations'
+FRIENDS_NODE = 'friends'
 
 
 class DatabaseService:
@@ -29,21 +30,16 @@ class DatabaseService:
         self._update_sender_sent_invitations(sender_id, receiver_id)
 
     def _update_receiver_pending_invitations(self, receiver_id, sender_id):
-        receiver_pending_invitations = self.db.child(USERS_NODE).child(receiver_id).child(
-            PENDING_INVITATIONS_NODE).get().val()
+        receiver_pending_invitations = self._get_user_node(receiver_id, PENDING_INVITATIONS_NODE)
         receiver_pending_invitations.append(sender_id)
-        self.db.child(USERS_NODE).child(receiver_id).child(PENDING_INVITATIONS_NODE).set(receiver_pending_invitations)
+        self._post_user_node(receiver_id, PENDING_INVITATIONS_NODE, receiver_pending_invitations)
 
     def _update_sender_sent_invitations(self, sender_id, receiver_id):
-        sender_sent_invitations = self.db.child(USERS_NODE).child(sender_id).child(SENT_INVITATIONS_NODE).get().val()
+        sender_sent_invitations = self._get_user_node(sender_id, SENT_INVITATIONS_NODE)
         sender_sent_invitations.append(receiver_id)
-        self.db.child(USERS_NODE).child(sender_id).child(SENT_INVITATIONS_NODE).set(sender_sent_invitations)
+        self._post_user_node(sender_id, SENT_INVITATIONS_NODE, sender_sent_invitations)
 
     def accept_friend_invitation(self, receiver_id, sender_id):
-        # remove from sender sent
-        # remove from receiver pending
-        # add receiver to sender friends
-        # add sender to receiver friends
         """
         Accepts friend invitation from sender to receiver.
 
@@ -53,6 +49,35 @@ class DatabaseService:
 
         :param receiver_id - id of user that  accepts an invitation
         :param sender_id - id of user that sends invitation
-        :return:
         """
-        
+        self._remove_from_user_collection(sender_id, SENT_INVITATIONS_NODE, receiver_id)
+        self._remove_from_user_collection(receiver_id, PENDING_INVITATIONS_NODE, sender_id)
+        self._befriend_two_users(receiver_id, sender_id)
+
+    def decline_friend_invitation(self, receiver_id, sender_id):
+        """
+        Declines friend invitation send from sender to receiver
+
+        removes ids of both users from corresponding sent_notifications and pending_notifications lists
+        """
+        self._remove_from_user_collection(sender_id, SENT_INVITATIONS_NODE, receiver_id)
+        self._remove_from_user_collection(receiver_id, PENDING_INVITATIONS_NODE, sender_id)
+
+    def _befriend_two_users(self, first_id, second_id):
+        first_friends = self._get_user_node(first_id, FRIENDS_NODE)
+        second_friends = self._get_user_node(second_id, FRIENDS_NODE)
+        first_friends.append(second_id)
+        second_friends.append(first_id)
+        self._post_user_node(first_id, FRIENDS_NODE, first_friends)
+        self._post_user_node(second_id, FRIENDS_NODE, second_friends)
+
+    def _get_user_node(self, user_id, node_name):
+        return self.db.child(USERS_NODE).child(user_id).child(node_name).get().val()
+
+    def _post_user_node(self, user_id, node_name, update_object):
+        self.db.child(USERS_NODE).child(user_id).child(node_name).set(update_object)
+
+    def _remove_from_user_collection(self, user_id, collection_name, rem_obj):
+        collection = self.db.child(USERS_NODE).child(user_id).child(collection_name)
+        collection.remove(rem_obj)
+        self.db.child(USERS_NODE).child(user_id).child(collection_name).set(collection)
