@@ -40,3 +40,27 @@
     width: 80%;
     border-radius: 50%;
 }
+
+.friends-btn-general {
+    background-color: #6666b4;
+    position: fixed;
+}
+
+.friends-btn-general img {
+    margin: 15%;
+}
+
+.friends-btn-disabled {
+    right: 0;
+    bottom: 0;
+    margin-right: 15px;
+    margin-bottom: 15px;
+}
+
+.friends-btn-enabled {
+    display: none;
+}
+
+.friends-btn-disabled:hover {
+    background-color: #9694ed;
+}
