@@ -5,11 +5,14 @@
 
 
 {% block content %}
-    <link href="{% static '/css/overflow-polyfill.css' %}" rel="stylesheet"> <!-- No way of doing this in base class - had to make a polyfill. Something is fkd up with Jinja imports -->
+    <link href="{% static '/css/overflow-polyfill.css' %}" rel="stylesheet">
+    <link href="{% static '/css/welcome.css' %}" rel="stylesheet">
+    <!-- No way of doing this in base class - had to make a polyfill. Something is fkd up with Jinja imports -->
     {% csrf_token %}
-    <div class="row">
+    {% include 'search/search.html' %}
+    <div class="centered row">
         <div class="col s8">
-            <div class="row">
+            <div class="row" style="">
                 Welcome {{ email }}
             </div>
             Main content
