@@ -53,3 +53,7 @@ def send_register_request(request):
     except HTTPError:
         return render(request, "logIn.html", { "error": "Something went wrong"})
     return render(request, "logIn.html", {"message": "Account created!"})
+
+
+def main_page(request):
+    return render(request, "main-panel.html")

@@ -2,6 +2,77 @@ body, html {
     height: 100%;
 }
 
+body{
+    background-color: var(--color3);
+    color: white;
+}
+
+main{
+    border-radius: 15px;
+    height: 90%;
+    margin: 10px;
+    box-shadow: 0 0 10px black;
+}
+
+.panel-row{
+    width: 100%;
+    height: 50%;
+    display: flex;
+}
+
+article{
+    background-color: var(--color4);
+    flex: 1;
+    overflow: hidden;
+    border: 2vw solid white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.main-page-text{
+    font-size: 3vw;
+}
+
+.icon-large{
+    font-size: 13vw;
+}
+
+.grow {
+transition: all .1s ease-in-out;
+}
+
+.grow:hover {
+transform: scale(1.05);
+}
+
+.panel-row:first-child{
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.panel-row:last-child{
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+.panel-row:first-child > article:first-child{
+    border-top-left-radius: 15px;
+}
+
+.panel-row:first-child > article:last-child{
+    border-top-right-radius: 15px;
+}
+
+.panel-row:last-child > article:first-child{
+    border-bottom-left-radius: 15px;
+}
+
+.panel-row:last-child > article:last-child{
+    border-bottom-right-radius: 15px;
+}
+
 .full-height {
     height: 100%;
 }
