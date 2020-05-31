@@ -26,6 +26,14 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+    }
+}
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -35,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'accounts'
 ]
 
 MIDDLEWARE = [
@@ -118,3 +127,12 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join('static'),
 )
+config = {
+    "apiKey": "AIzaSyD8KdT5yIQgYks6F-rXdIFUvjaIOZd1S4M",
+    "authDomain": "spiritguard-fc4df.firebaseapp.com",
+    "databaseURL": "https://spiritguard-fc4df.firebaseio.com",
+    "projectId": "spiritguard-fc4df",
+    "storageBucket": "spiritguard-fc4df.appspot.com",
+    "messagingSenderId": "787068540327",
+    "appId": "1:787068540327:web:dbcaf54324705c8eedd282"
+}
