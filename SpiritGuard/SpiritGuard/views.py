@@ -15,11 +15,35 @@ config = {
 
 firebase = pyrebase.initialize_app(config)
 auth = firebase.auth()
-
+database = firebase.database()
 
 def render_log_in_page(request):
+
     return render(request, "logIn.html")
 
+def newpage(request):
+
+    alcohols = database.child("alcohols").shallow().get().val()
+    alcohols_list = []
+    for i in alcohols:
+        alcohols_list.append(i)
+
+    alcohols_list.sort(reverse = False)
+
+
+
+    return render(request, "newpagee.html",{'alcohols_list':alcohols_list})
+
+def post_create(request):
+    work = request.POST.get('work')
+    data={
+        'work':work
+    }
+    print('WORK: ', work)
+    database.child('users').push(data)
+
+
+    return render(request,"newpagee.html")
 
 def send_log_in_request(request):
     email = request.POST.get('email')

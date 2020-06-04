@@ -9,5 +9,7 @@ urlpatterns = [
     url(r'^$', views.render_log_in_page),
     url(r'^postsign/', views.send_log_in_request),
     url(r'^postRegister/', views.send_register_request),
-    url(r'^register/', views.render_register_page)
+    url(r'^register/', views.render_register_page),
+    url(r'^newpage/', views.newpage),
+    url(r'^post_create/', views.post_create),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
