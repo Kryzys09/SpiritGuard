@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+.fp {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    background-color: #6666b4;
+}
+
+.hdr-flx {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hdr {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.hdr-flx img {
+    margin-left: 10%;
+    width: 33%;
+    height: 33%;
+}
+
+.hdr-flx span {
+    color: #fbfffd;
+    font-family: 'Roboto', sans-serif;
+    font-size: 120%;
+    margin-right: 20%;
+}
+
+.hdr-content-separator {
+    width: 80%;
+    border-radius: 50%;
+}
