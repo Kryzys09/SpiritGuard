@@ -1,15 +1,12 @@
 import pyrebase
 from django.shortcuts import render, redirect
 from requests.exceptions import HTTPError
-<<<<<<< HEAD
 from .settings import config
-# Tymczasowo - docelowo wyrzucić do innego pliku
 
 firebase = pyrebase.initialize_app(config)
 auth = firebase.auth()
 database = firebase.database()
 
-<<<<<<< HEAD
 def main_page(request):
     return render(request, "main-panel.html")
 
