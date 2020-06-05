@@ -49,18 +49,43 @@ def render_edit_account_details(request):
     return render(request, "editAccountDetails.html")
 
 def submit_that_shit_bwooy(request):
-    requestData = request.POST
-    print(requestData)
-    print(request.FILES)
-    data = {
-        "name": requestData.get("name"),
-        "surname": requestData.get("surname"),
-        "birth_date": datetime.datetime.strptime(
-            requestData.get("date_of_birth"), "%d.%m.%Y"
-        ),
-        "weight": requestData.get("weight"),
-        "height": requestData.get("height"),
-        "gender": requestData.get("gender")
+    try:
+        birth_date = datetime.datetime.strptime(
+                request.POST.get("date_of_birth"),
+                "%d.%m.%Y"
+            )
+
+        if is_birth_date_ok(birth_date):     
+            data = generate_user_data_object(request.POST, birth_date)
+            user = request.session['user']
+            database.child('users') \
+                .child(user['localId']) \
+                .update(data, user['idToken'])
+        else:
+            return render(
+                request,
+                "editAccountDetails.html",
+                { "error": "Za młody jesteś mordo" }
+            ) 
+    except ValueError:
+        return render(
+            request,
+            "editAccountDetails.html",
+            { "error": "Oj nie byczq -1" }
+        )
+
+    return redirect("/")
+
+def is_birth_date_ok(birth_date: datetime.datetime) -> bool:
+    now = datetime.date.today()
+    first_good_date = datetime.datetime(now.year - 18, now.month, now.day)
+    return birth_date <= first_good_date
+
+def generate_user_data_object(request_data, birth_date):
+    return {
+        "nickname": request_data.get("nickname"),
+        "birth_date": str(birth_date),
+        "weight": float(request_data.get("weight")),
+        "height": float(request_data.get("height")),
+        "gender": request_data.get("gender")
     }
-    print(data)
-    return render(request, "welcome.html")

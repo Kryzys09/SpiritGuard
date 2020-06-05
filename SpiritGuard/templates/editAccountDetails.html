@@ -7,19 +7,16 @@
 {% block content %}
     <link href="{% static '/css/overflow-polyfill.css' %}" rel="stylesheet"> <!-- No way of doing this in base class - had to make a polyfill. Something is fkd up with Jinja imports -->
     {% csrf_token %}
+    {{ form }}
     
     <div class="center-content full-height">    
         <h3>Edit account details</h3>
         <form action="/dupsko/" method="post" id="edit-account-form">
             {% csrf_token %}
             <div class="row">
-                <div class='input-field col s6'>
-                    <input type="text" id="name-input" name="name" value="dupa">
-                    <label for="email-input">Name</label>
-                </div>
-                <div class="input-field col s6">
-                    <input type="text" id="surname-input" name="surname">
-                    <label for="surname-input">Surname</label>
+                <div class='input-field col s12'>
+                    <input type="text" id="name-input" name="nickname" value="dupa">
+                    <label for="name-input">Display name</label>
                 </div>
             </div>
             <div class="row">
@@ -71,14 +68,10 @@
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const now = new Date()
-            now.setYear(now.getYear() - 118 + 2000)
-
             M.Datepicker.init(
                 document.querySelectorAll('.datepicker'), 
                 {
                     firstDay: 1,
-                    maxDate: new Date(now + 1),
                     yearRange: 100,
                     format: "dd.mm.yyyy"
                 }
