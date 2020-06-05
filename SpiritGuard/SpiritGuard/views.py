@@ -1,3 +1,4 @@
+import datetime
 import pyrebase
 from django.shortcuts import render, redirect
 from requests.exceptions import HTTPError
@@ -41,3 +42,25 @@ def post_create(request):
 
 
     return render(request,"newpagee.html")
+
+
+
+def render_edit_account_details(request):
+    return render(request, "editAccountDetails.html")
+
+def submit_that_shit_bwooy(request):
+    requestData = request.POST
+    print(requestData)
+    print(request.FILES)
+    data = {
+        "name": requestData.get("name"),
+        "surname": requestData.get("surname"),
+        "birth_date": datetime.datetime.strptime(
+            requestData.get("date_of_birth"), "%d.%m.%Y"
+        ),
+        "weight": requestData.get("weight"),
+        "height": requestData.get("height"),
+        "gender": requestData.get("gender")
+    }
+    print(data)
+    return render(request, "welcome.html")

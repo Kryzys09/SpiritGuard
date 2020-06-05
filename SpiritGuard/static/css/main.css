@@ -20,6 +20,10 @@ main{
     display: flex;
 }
 
+.datepicker-container {
+    color: black
+}
+
 article{
     background-color: var(--color4);
     flex: 1;
@@ -103,4 +107,10 @@ transform: scale(1.05);
 
 .align-right {
     text-align: right;
+}
+
+#edit-account-form {
+    background-color: #FFF;
+    padding: 1em;
+    border-radius: 10px;
 }

@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Edit account details{% endblock %}
+
+
+{% block content %}
+    <link href="{% static '/css/overflow-polyfill.css' %}" rel="stylesheet"> <!-- No way of doing this in base class - had to make a polyfill. Something is fkd up with Jinja imports -->
+    {% csrf_token %}
+    
+    <div class="center-content full-height">    
+        <h3>Edit account details</h3>
+        <form action="/dupsko/" method="post" id="edit-account-form">
+            {% csrf_token %}
+            <div class="row">
+                <div class='input-field col s6'>
+                    <input type="text" id="name-input" name="name" value="dupa">
+                    <label for="email-input">Name</label>
+                </div>
+                <div class="input-field col s6">
+                    <input type="text" id="surname-input" name="surname">
+                    <label for="surname-input">Surname</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input type="text" class="datepicker" id="date-of-birth-input" name="date_of_birth">
+                    <label for="date-of-birth-input">Date of birth</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <select id="gender-select" name="gender">
+                        <option value="" disabled selected>Choose an option</option>
+                        <option value="M">Male</option>
+                        <option value="F">Female</option>
+                    </select>
+                    <label for="gender-select">Gender (for calculations only)</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class='input-field col s6'>
+                    <input type="number" id="height-input" name="height" step="0.1" min="0.1">
+                    <label for="height-input">Height [cm]</label>
+                </div>
+                <div class="input-field col s6">
+                    <input type="number" id="weight-input" name="weight" step="0.1" min="0.1">
+                    <label for="weight-input">Weight [kg]</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input type="file" name="filee">
+                    <label for="avatar-select">avatar</label>
+                </div>
+            </div>
+            {% if error %}
+                <div class="row">
+                    <div class="col s12">
+                        <div class="alert error">{{error}}</div>
+                    </div>
+                </div>
+            {% endif %}
+            <div class="center-content">
+                <button class="btn waves-effect waves-light" type="submit" name="action">
+                    Submit
+                </button>
+            </div>
+        </form>
+    </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const now = new Date()
+            now.setYear(now.getYear() - 118 + 2000)
+
+            M.Datepicker.init(
+                document.querySelectorAll('.datepicker'), 
+                {
+                    firstDay: 1,
+                    maxDate: new Date(now + 1),
+                    yearRange: 100,
+                    format: "dd.mm.yyyy"
+                }
+            );
+            M.FormSelect.init(document.querySelectorAll('select'), {});
+        });
+    </script>
+{% endblock %}
