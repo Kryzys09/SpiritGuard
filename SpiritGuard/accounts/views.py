@@ -5,6 +5,7 @@ from SpiritGuard.settings import config
 
 
 firebase = pyrebase.initialize_app(config)
+db = firebase.database()
 auth = firebase.auth()
 
 
@@ -21,7 +22,7 @@ def send_log_in_request(request):
         print('ERROR: ', e)
         return render(request, "logIn.html", {"error": "Invalid credentials"})
     request.session['user'] = user
-    print('USERTEST: ', request.user)
+    print('USERTEST: ', request.session['user'])
     return redirect('/')
 
 
@@ -46,8 +47,18 @@ def send_register_request(request):
             {"error": "Password is too short"}
         )
     try:
-        auth.create_user_with_email_and_password(email, password)
+        user = auth.create_user_with_email_and_password(email, password)
     except HTTPError:
         return render(request, "logIn.html", { "error": "Something went wrong"})
+    new_user(user)
     return render(request, "logIn.html", {"message": "Account created!"})
 
+
+def new_user(user):
+    token = user['idToken']
+    id = user['localId']
+    data = {
+        'email': user['email'],
+        'image': ""
+    }
+    db.child("users").child(id).set(data, token)
