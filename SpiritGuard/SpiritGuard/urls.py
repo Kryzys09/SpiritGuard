@@ -11,6 +11,4 @@ urlpatterns = [
     url(r'^$', views.main_page),
     url(r'^newpage/', views.newpage),
     url(r'^post_create/', views.post_create),
-    url(r'^edit_account_details/', views.render_edit_account_details),
-    url(r'^dupsko/', views.submit_that_shit_bwooy)
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

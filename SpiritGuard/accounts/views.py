@@ -1,3 +1,4 @@
+import datetime
 import pyrebase
 from django.shortcuts import render, redirect
 from requests.exceptions import HTTPError
@@ -46,19 +47,67 @@ def send_register_request(request):
             "register.html",
             {"error": "Password is too short"}
         )
+    return render(
+        request,
+        "editAccountDetails.html",
+        { "email": email, "password": password }
+    )
+
+def render_edit_account_details(request):
+    user = request.session['user']
+    user_data = db.child('users') \
+        .child(user['localId']) \
+        .get() \
+        .val()
+    print(user_data)
+    return render(request, "editAccountDetails.html", dict(user_data))
+
+
+def register_new_user(request):
     try:
-        user = auth.create_user_with_email_and_password(email, password)
+        birth_date = datetime.datetime.strptime(
+                request.POST.get("date_of_birth"),
+                "%d.%m.%Y"
+            )
+        email = request.POST.get('email')
+        password = request.POST.get("password")
+    
+        if is_birth_date_ok(birth_date):     
+            user = auth.create_user_with_email_and_password(email, password)
+            data = generate_user_data_object(request.POST, birth_date)
+            data['email'] = email
+            db.child('users') \
+                .child(user['localId']) \
+                .update(data, user['idToken'])
+        else:
+            return render(
+                request,
+                "editAccountDetails.html",
+                { "error": "Za młody jesteś mordo" }
+            ) 
+    except ValueError:
+        return render(
+            request,
+            "editAccountDetails.html",
+            { "error": "Oj nie byczq -1" }
+        )
     except HTTPError:
         return render(request, "logIn.html", { "error": "Something went wrong"})
-    new_user(user)
-    return render(request, "logIn.html", {"message": "Account created!"})
+
+    return redirect("/")
 
 
-def new_user(user):
-    token = user['idToken']
-    id = user['localId']
-    data = {
-        'email': user['email'],
-        'image': ""
+def is_birth_date_ok(birth_date: datetime.datetime) -> bool:
+    now = datetime.date.today()
+    first_good_date = datetime.datetime(now.year - 18, now.month, now.day)
+    return birth_date <= first_good_date
+
+
+def generate_user_data_object(request_data, birth_date):
+    return {
+        "nickname": request_data.get("nickname"),
+        "birth_date": str(birth_date),
+        "weight": float(request_data.get("weight")),
+        "height": float(request_data.get("height")),
+        "gender": request_data.get("gender")
     }
-    db.child("users").child(id).set(data, token)
