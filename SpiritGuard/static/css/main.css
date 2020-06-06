@@ -128,3 +128,10 @@ article{
     text-align: center;
 }
 
+#calcDatePicker .datepicker-container {
+    position: unset;
+}
+
+#calcDatePicker .datepicker-day-button {
+    color: black;
+}

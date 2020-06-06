@@ -54,8 +54,8 @@
                 </div>
             </div>
             <div class="row">
-                <div class="input-field col s12">
-                    <input type="datetime-local">
+                <div class="input-field col s12" id="calcDatePicker">
+                    <input type="text" class="datepicker">
                     <label for="date-input">Date</label>
                 </div>
             </div>
@@ -123,14 +123,8 @@
                 }
             );
             M.FormSelect.init(document.querySelectorAll('select'), {});
-        });
-        document.addEventListener('DOMContentLoaded', function() {
-            var elems = document.querySelectorAll('.modal');
-            var instances = M.Modal.init(elems);
-        });
-        document.addEventListener('DOMContentLoaded', function() {
-            var elems = document.querySelectorAll('.datepicker');
-            var instances = M.Datepicker.init(elems);
+            var elemModal = document.querySelectorAll('.modal');
+            var instances = M.Modal.init(elemModal);
         });
     </script>
 {% endblock %}
