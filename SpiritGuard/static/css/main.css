@@ -135,3 +135,11 @@ article{
 #calcDatePicker .datepicker-day-button {
     color: black;
 }
+
+.list-divider:last-of-type {
+    display: none;
+}
+
+.user-list-row {
+    margin:20px
+}
