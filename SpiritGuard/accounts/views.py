@@ -54,12 +54,14 @@ def send_register_request(request):
     )
 
 def render_edit_account_details(request):
-    user = request.session['user']
-    user_data = db.child('users') \
-        .child(user['localId']) \
-        .get() \
-        .val()
-    user_data = dict(user_data)
+    user_data = {}
+    if 'user' in request.session.keys():
+        user = request.session['user']
+        user_data = db.child('users') \
+            .child(user['localId']) \
+            .get() \
+            .val()
+        user_data = dict(user_data)
 
     return render(request, "editAccountDetails.html", user_data)
 
