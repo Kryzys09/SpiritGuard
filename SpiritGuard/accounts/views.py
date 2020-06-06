@@ -22,6 +22,7 @@ def send_log_in_request(request):
         print('ERROR: ', e)
         return render(request, "logIn.html", {"error": "Invalid credentials"})
     request.session['user'] = user
+    request.session.set_expiry(900)
     print('USERTEST: ', request.session['user'])
     return redirect('/')
 

@@ -4,39 +4,46 @@
 {% block header %}
 {% endblock %}
 {% block content %}
-    <header>
-        data, logo i inne gówno
-    </header>
     <main>
         <section class="panel-row">
-            <article class="grow">
-                <i class="far icon-large fa-user-tie"></i>
-                <div class="main-page-text"> Profil </div>
-            </article>
-            <article class="grow">
-                <i class="far icon-large fa-chart-bar"></i>
-                <div class="main-page-text"> Statystyki </div>
-            </article>
-            <article class="grow">
-                <i class="far icon-large fa-users"></i>
-                <div class="main-page-text"> Znajomi </div>
-            </article>
+            <a href="/accounts/profile/{{ user_id }}/" class="main-panel-tile">
+                <article>
+                    <i class="fa icon-large fa-user-tie"></i>
+                    <div class="main-page-text"> Profil </div>
+                </article>
+            </a>
+            <a href="/stats/" class="main-panel-tile">
+                <article>
+                    <i class="fa icon-large fa-chart-bar"></i>
+                    <div class="main-page-text"> Statystyki </div>
+                </article>
+            </a>
+            <a href="/accounts/friends/" class="main-panel-tile">
+                <article>
+                    <i class="fa icon-large fa-users"></i>
+                    <div class="main-page-text"> Znajomi </div>
+                </article>
+            </a>
         </section>
         <section class="panel-row">
-            <article>
+            <article class="main-panel-tile">
                 Tu będą jakieś ciekawostki albo nie wiem w sumie<br>
                 Ostatnie spożycie alkoholu:<br>
                 spożycie w tym miesiącu:<br>
                 +x%  w stosunku do zeszłego miesiąca:
             </article>
-            <article class="grow">
-                <i class="far icon-large fa-calculator"></i>
-                <div class="main-page-text"> Kalkulatory </div>
-            </article>
-            <article class="grow">
-                <i class="far icon-large fa-cogs"></i>
-                <div class="main-page-text"> Ustawienia </div>
-            </article>
+            <a href="/alcohols/calculators/" class="main-panel-tile">
+                <article>
+                    <i class="fa icon-large fa-calculator"></i>
+                    <div class="main-page-text"> Kalkulatory </div>
+                </article>
+            </a>
+            <a href="/accounts/settings/" class="main-panel-tile">
+                <article>
+                    <i class="fa icon-large fa-cogs"></i>
+                    <div class="main-page-text"> Ustawienia </div>
+                </article>
+            </a>
         </section>
     </main>
 {% endblock %}

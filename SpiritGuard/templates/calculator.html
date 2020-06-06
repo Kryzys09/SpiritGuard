@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Calculators{% endblock %}
+{% block header %}
+{% endblock %}
+{% block content %}
+    <main>
+        <section class="panel-row">
+            <a href="#modal-bac" class="main-panel-tile modal-trigger">
+                <article>
+                    <i class="fa icon-large fa-percent"></i>
+                    <div class="main-page-text"> Promile we krwi </div>
+                </article>
+            </a>
+            <a href="#modal-drink" class="main-panel-tile modal-trigger">
+                <article>
+                    <i class="fa icon-large fa-glass-cheers"></i>
+                    <div class="main-page-text"> Ile mogę wypić? </div>
+                </article>
+            </a>
+        </section>
+        <section class="panel-row">
+            <a href="/" class="main-panel-tile">
+                <article>
+                    <i class="fa icon-large fa-door-open"></i>
+                    <div class="main-page-text"> Wróć </div>
+                </article>
+            </a>
+            <article class="main-panel-tile">
+                {% if gender > 0 %}
+                    <i class="fa icon-large fa-male"></i>
+                {% else %}
+                    <i class="fa icon-large fa-female"></i>
+                {% endif %}
+                <div class="main-page-text"> BMI </div>
+            </article>
+        </section>
+
+    <div id="modal-bac" class="modal classic-modal modal-fixed-footer">
+        <div class="modal-content">
+            <div class="row">
+                <div class="input-field col s12">
+                    <select id="gender-select" name="gender" required>
+                        <option value="M" {% if gender > 0 %} selected {% endif %}>Male</option>
+                        <option value="F" {% if gender == 0 %} selected {% endif %}>Female</option>
+                    </select>
+                    <label for="gender-select">Gender (for calculations only)</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input type="number" id="weight-input" name="weight" step="0.1" min="0.1" required value={{weight}}>
+                    <label for="weight-input">Weight [kg]</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input type="datetime-local">
+                    <label for="date-input">Date</label>
+                </div>
+            </div>
+            <div class="row">
+                Spożyte alkohole:
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Volume</th>
+                            <th>Percentage</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>
+                                <input type="text" class="classic-input">
+                            </td>
+                            <td>
+                                <input type="number" class="classic-input" min="1" step="1">
+                            </td>
+                            <td>
+                                <input type="number" class="classic-input" min="0.001" step="0.001">
+                            </td>
+                            <td>
+                                <a class="btn-floating waves-effect waves-light green"><i class="fa fa-plus"></i></a>
+                            </td>
+                        </tr>
+                        {% for drink in drinks %}
+                            <tr>
+                                <td>
+                                    {{ drink.name }}
+                                </td>
+                                <td>
+                                    {{ drink.volume }}
+                                </td>
+                                <td>
+                                    {{ drink.percentage }}
+                                </td>
+                                <td>
+                                    <a class="btn-floating waves-effect waves-light red"><i class="fa fa-times"></i></a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer classic-modal-footer">
+                BAC: {{ bac }}
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+        </div>
+    </div>
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            M.Datepicker.init(
+                document.querySelectorAll('.datepicker'),
+                {
+                    firstDay: 1,
+                    yearRange: 100,
+                    format: "dd-mm-yyyy"
+                }
+            );
+            M.FormSelect.init(document.querySelectorAll('select'), {});
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('.modal');
+            var instances = M.Modal.init(elems);
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('.datepicker');
+            var instances = M.Datepicker.init(elems);
+        });
+    </script>
+{% endblock %}

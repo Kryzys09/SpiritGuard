@@ -2,9 +2,9 @@
 {% load static %}
 {% block title %}Register{% endblock %}
 {% block content %}
-    <div class="center-content full-height">    
+    <div class="center-content full-height">
         <h3>Create new account</h3>
-        <form action="/postRegister/" method="post">
+        <form action="/accounts/postRegister/" id="register-form" method="post">
             {% csrf_token %}
             <div class="row">
                 <div class='input-field'>
@@ -25,6 +25,21 @@
                     <label for="password-confirm-input">Password confirmation</label>
                 </div>
             </div>
+            <div class="row">
+                <div class="input-field">
+                    <input type="number" id="weight-input" name="weight" required>
+                    <label for="weight-input">Weight</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field">
+                    <select id="gender-select" name="gender" form="register-form" required>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                    <label for="gender-select">Gender</label>
+                </div>
+            </div>
             {% if error %}
                 <div class="row">
                     <div class="col s12">
@@ -38,5 +53,5 @@
                 </button>
             </div>
         </form>
-        </div>
+    </div>
 {% endblock %}

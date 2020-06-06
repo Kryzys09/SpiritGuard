@@ -1,4 +1,5 @@
 import datetime
+from collections import OrderedDict
 
 """
 @author Krzysztof Klęczek
@@ -52,13 +53,13 @@ Metoda do obliczania procesu trzeźwienia
 @return (dictionary) - rozkład opadu ilości promili w stosunku do czasu (klucze to obiekty datetime, wartości to ilość promili)
 """
 def sobering_time_projection(interval, gender, bac, date_time=datetime.datetime.now()):
-    sobering = {}
+    sobering = OrderedDict()
     time = date_time
     while bac > 0.0:
-        sobering[time] = bac
+        sobering[str(time.strftime("%Y-%m-%d %H:%M:%S"))] = "{:.3f}".format(bac)
         time += datetime.timedelta(minutes=interval)
         bac -= METABOLISM[gender]*interval/6
-    sobering[time] = 0.0
+    sobering[str(time.strftime("%Y-%m-%d %H:%M:%S"))] = 0.0
     return sobering
 
 
@@ -99,14 +100,16 @@ def translate_bac(gender, weight, bac, alcohols):
 
     return amounts
 
-alcs = [
-    Alcohol("beer", 2000, 0.05)
+classic_alcohols = [
+    Alcohol("beer", 500, 0.05),
+    Alcohol("wine", 500, 0.116),
+    Alcohol("vodka", 50, 0.4)
 ]
 
 weight = 70
 g = 0
-b = blood_alcohol_content(g, alcs, weight, 0)
+b = blood_alcohol_content(g, classic_alcohols, weight, 0)
 sob = sobering_time_projection(15, g, b)
 mai = max_alcohol_intake(g, datetime.datetime.now() + datetime.timedelta(hours=12))
-tbac = translate_bac(g, weight, mai, alcs)
+tbac = translate_bac(g, weight, mai, classic_alcohols)
 print("done")
