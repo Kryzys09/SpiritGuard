@@ -9,5 +9,5 @@ urlpatterns = [
     url(r'^postRegister/', views.send_register_request),
     url(r'^register/', views.render_register_page),
     url(r'^edit_account_details/', views.render_edit_account_details),
-    url(r'^dupsko/', views.register_new_user),
+    url(r'^register_next/', views.register_new_user),
 ]

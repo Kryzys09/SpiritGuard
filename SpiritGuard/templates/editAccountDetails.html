@@ -9,7 +9,7 @@
     {% csrf_token %}
     <div class="center-content full-height">    
         <h3>Edit account details</h3>
-        <form action="/accounts/dupsko/" method="post" id="edit-account-form" enctype="multipart/form-data">
+        <form action="/accounts/register_next/" method="post" id="edit-account-form" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="row center-content">
                 {% if avatar %}
