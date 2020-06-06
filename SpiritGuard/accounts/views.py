@@ -3,7 +3,7 @@ import pyrebase
 from django.shortcuts import render, redirect
 from requests.exceptions import HTTPError
 from SpiritGuard.settings import config
-
+from django.core.files.storage import FileSystemStorage
 
 firebase = pyrebase.initialize_app(config)
 db = firebase.database()
@@ -59,8 +59,9 @@ def render_edit_account_details(request):
         .child(user['localId']) \
         .get() \
         .val()
-    print(user_data)
-    return render(request, "editAccountDetails.html", dict(user_data))
+    user_data = dict(user_data)
+
+    return render(request, "editAccountDetails.html", user_data)
 
 
 def register_new_user(request):
@@ -72,24 +73,31 @@ def register_new_user(request):
         email = request.POST.get('email')
         password = request.POST.get("password")
 
-        if is_birth_date_ok(birth_date):
-            if 'user' in request.session.keys():
-                user = request.session['user']
-            else:
-                user = auth.create_user_with_email_and_password(email, password)
-            data = generate_user_data_object(request.POST, birth_date)
-            if data['gender'] == "":
-                raise ValueError()
-            data['email'] = email
-            db.child('users') \
-                .child(user['localId']) \
-                .update(data, user['idToken'])
-        else:
+        if not is_birth_date_ok(birth_date):
             return render(
                 request,
                 "editAccountDetails.html",
                 { "error": "Za młody jesteś mordo" }
-            ) 
+            )
+        
+        if 'user' in request.session.keys():
+            user = request.session['user']
+        else:
+            user = auth.create_user_with_email_and_password(email, password)
+        if 'avatar' not in request.FILES.keys():
+            file_path = 'default2.png'
+        else:
+            file_path = handle_file(request.FILES['avatar'], user['localId']+'.jpg')
+
+        data = generate_user_data_object(request.POST, birth_date)
+        if data['gender'] == "":
+            raise ValueError()
+        data['email'] = email
+        data['avatar'] = file_path
+        db.child('users') \
+            .child(user['localId']) \
+            .update(data, user['idToken'])
+             
     except ValueError:
         return render(
             request,
@@ -98,7 +106,7 @@ def register_new_user(request):
         )
     except (HTTPError, KeyError):
         return render(request, "logIn.html", { "error": "Something went wrong"})
-
+    
     return redirect("/")
 
 
@@ -116,3 +124,12 @@ def generate_user_data_object(request_data, birth_date):
         "height": float(request_data.get("height")),
         "gender": request_data.get("gender")
     }
+
+
+def handle_file(file, file_name):
+    fs = FileSystemStorage()
+    file_path = 'static/gfx/avatars/' + file_name
+    if fs.exists(file_path):
+        fs.delete(file_path)
+    fs.save(file_path, file)
+    return file_name
