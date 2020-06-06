@@ -15,20 +15,20 @@
             <input name="password" value="{{password}}" type="hidden">
             <div class="row">
                 <div class='input-field col s12'>
-                    <input type="text" id="name-input" name="nickname" value={{nickname}} required>
+                    <input type="text" id="name-input" name="nickname" required value={{nickname}}>
                     <label for="name-input">Display name</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s12">
-                    <input type="text" class="datepicker" id="date-of-birth-input" name="date_of_birth" value={{birth_date}} required>
+                    <input type="text" class="datepicker" id="date-of-birth-input" name="date_of_birth" required value={{birth_date}}>
                     <label for="date-of-birth-input">Date of birth</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s12">
                     <select id="gender-select" name="gender" required>
-                        <option value="" disabled {% if gender == "" %} selected {% endif %}>Choose an option</option>
+                        <option value="" disabled {% if not gender %} selected {% endif %}>Choose an option</option>
                         <option value="M" {% if gender == "M" %} selected {% endif %}>Male</option>
                         <option value="F" {% if gender == "F" %} selected {% endif %}>Female</option>
                     </select>
@@ -62,15 +62,20 @@
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            const datepicker = document.querySelectorAll('.datepicker')
             M.Datepicker.init(
-                document.querySelectorAll('.datepicker'), 
+                datepicker, 
                 {
                     firstDay: 1,
                     yearRange: 100,
-                    format: "dd-mm-yyyy"
+                    format: "yyyy-mm-dd",
+                    setDefaultDate: !!datepicker.value,
+                    defaultDate: datepicker.value
                 }
             );
-            M.FormSelect.init(document.querySelectorAll('select'), {});
+            const genderSelect = document.querySelectorAll('select')
+            M.FormSelect.init(genderSelect, {});
+            genderSelect.addEventListener
         });
     </script>
 {% endblock %}

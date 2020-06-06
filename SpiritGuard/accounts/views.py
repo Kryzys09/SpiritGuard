@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime, date
 import pyrebase
 from django.shortcuts import render, redirect
 from requests.exceptions import HTTPError
@@ -65,16 +65,21 @@ def render_edit_account_details(request):
 
 def register_new_user(request):
     try:
-        birth_date = datetime.datetime.strptime(
+        birth_date = datetime.strptime(
                 request.POST.get("date_of_birth"),
-                "%d.%m.%Y"
+                "%Y-%m-%d"
             )
         email = request.POST.get('email')
         password = request.POST.get("password")
-    
-        if is_birth_date_ok(birth_date):     
-            user = auth.create_user_with_email_and_password(email, password)
+
+        if is_birth_date_ok(birth_date):
+            if 'user' in request.session.keys():
+                user = request.session['user']
+            else:
+                user = auth.create_user_with_email_and_password(email, password)
             data = generate_user_data_object(request.POST, birth_date)
+            if data['gender'] == "":
+                raise ValueError()
             data['email'] = email
             db.child('users') \
                 .child(user['localId']) \
@@ -91,15 +96,15 @@ def register_new_user(request):
             "editAccountDetails.html",
             { "error": "Oj nie byczq -1" }
         )
-    except HTTPError:
+    except (HTTPError, KeyError):
         return render(request, "logIn.html", { "error": "Something went wrong"})
 
     return redirect("/")
 
 
-def is_birth_date_ok(birth_date: datetime.datetime) -> bool:
-    now = datetime.date.today()
-    first_good_date = datetime.datetime(now.year - 18, now.month, now.day)
+def is_birth_date_ok(birth_date: datetime) -> bool:
+    now = date.today()
+    first_good_date = datetime(now.year - 18, now.month, now.day)
     return birth_date <= first_good_date
 
 
