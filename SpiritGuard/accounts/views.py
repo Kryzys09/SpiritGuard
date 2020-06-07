@@ -52,7 +52,7 @@ def send_register_request(request):
     return render(
         request,
         "editAccountDetails.html",
-        { "email": email, "password": password }
+        { "email": email, "password": password, "link": '/accounts/pre_login/register_next/'}
     )
 
 
@@ -67,6 +67,7 @@ def render_edit_account_details(request):
             .get() \
             .val()
         user_data = dict(user_data)
+        user_data['link'] = '/accounts/register_next/'
 
     return render(request, "editAccountDetails.html", user_data)
 
@@ -92,7 +93,7 @@ def register_new_user(request):
         else:
             user = auth.create_user_with_email_and_password(email, password)
         if 'avatar' not in request.FILES.keys():
-            file_path = 'default2.png'
+            file_path = ''
         else:
             file_path = handle_file(request.FILES['avatar'], user)
 
@@ -100,7 +101,8 @@ def register_new_user(request):
         if data['gender'] == "":
             raise ValueError()
         data['email'] = email
-        data['avatar'] = file_path
+        if len(file_path) > 0:
+            data['avatar'] = file_path
         db.child('users') \
             .child(user['localId']) \
             .update(data, user['idToken'])
@@ -111,8 +113,8 @@ def register_new_user(request):
             "editAccountDetails.html",
             { "error": "Oj nie byczq -1" }
         )
-    except (HTTPError, KeyError):
-        return render(request, "logIn.html", { "error": "Something went wrong"})
+    # except (HTTPError, KeyError):
+    #     return render(request, "logIn.html", { "error": "Something went wrong"})
     
     return redirect("/")
 
