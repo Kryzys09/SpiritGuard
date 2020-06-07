@@ -1,10 +1,12 @@
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 from .friends import Friend
 import pyrebase
 from django.shortcuts import render, redirect
 from requests.exceptions import HTTPError
 from SpiritGuard.settings import config
 from django.core.files.storage import FileSystemStorage
+import plotly.graph_objects as pgo
+from SpiritGuard.views import get_user_consumption_stats, get_users_data
 
 firebase = pyrebase.initialize_app(config)
 db = firebase.database()
@@ -181,13 +183,29 @@ def load_profile(request):
         avatar = user_db['avatar']
     else:
         avatar = 'SpiritGuard/static/gfx/avatars/default2.png'
+    chart_data = get_user_consumption_stats(local_id, get_users_data())
+    x, y = list(chart_data.keys()), list(chart_data.values())
+    chart = pgo.Figure(pgo.Scatter(x=x, y=y, name="current user"))
+    chart.update_layout(
+        title={
+            "text": "Alcohol consumption in last 30 days",
+            'y':0.9,
+            'x':0.5,
+            'xanchor': 'center',
+            'yanchor': 'top',
+        },
+        yaxis = {
+            "title_text": "Alcohol in grams [g]"
+        }
+    )
     user = Friend(local_id, user_db['nickname'], user_db['birth_date'], avatar, logs)
     data = {
         'local_id': local_id,
         'name': user.name,
         'age': user.age,
         'avatar': user.image,
-        'logs': user.logs
+        'logs': user.logs,
+        'chart': chart.to_html(full_html=False)
     }
     return render(request, 'accounts/profile.html', data)
 
