@@ -86,17 +86,17 @@
             </div>
         <div class="row">
             <div class='input-field'>
-                <input type='number' id="percentage-input" name="percentage-input" min="0" max="1">
+                <input type='number' id="percentage-input" name="percentage-input" step="0.001" min="0.001" max="1.0000">
                 <label for="percentage-input">Percentage</label>
             </div>
         </div>
         <div class="row">
             <div class="input-field col s6" id="calcDatePicker">
-                <input type="text" id="date-input" class="datepicker" value="{{date}}">
+                <input type="text" id="date-input" class="datepicker" name="date-input" value="{{date}}" required>
                 <label for="date-input">Date of drink</label>
             </div>
             <div class="input-field col s6" id="calcTimePicker">
-                <input type="text" id="time-input" class="timepicker" value="{{time}}">
+                <input type="text" id="time-input" class="timepicker" name="time-input" value="{{time}}" required>
                 <label for="time-input">Time of drink</label>
             </div>
         </div>

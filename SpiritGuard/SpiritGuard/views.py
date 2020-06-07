@@ -34,12 +34,13 @@ def post_create(request):
     name = request.POST.get('name-input')
     volume = request.POST.get('volume-input')
     percentage = request.POST.get('percentage-input')
-    date = request.POST.get('date-input').replace("T", " ")
+    date = request.POST.get('date-input')
+    time = request.POST.get('time-input')
     data={
         'name':name,
-        'volume':volume,
-        'percentage':percentage,
-        'date':date
+        'volume': int(volume),
+        'percentage': float(percentage),
+        'date': date + ' ' + time
     }
     idtoken = request.session['user']['localId']
     database.child('users').child(idtoken).child('logs').push(data)
