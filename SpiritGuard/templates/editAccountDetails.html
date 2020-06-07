@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Edit account details{% endblock %}
+
+
+{% block content %}
+    <link href="{% static '/css/overflow-polyfill.css' %}" rel="stylesheet"> <!-- No way of doing this in base class - had to make a polyfill. Something is fkd up with Jinja imports -->
+    {% csrf_token %}
+    <div class="center-content full-height">    
+        <h3>Edit account details</h3>
+        <form action="/accounts/register_next/" method="post" id="edit-account-form" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row center-content">
+                {% if avatar %}
+                    <img src="{%static '/gfx/avatar.jpg' %}" style="width: 128px">
+                {% else %}
+                    <img src='/static/gfx/avatars/default2.png' style="width: 128px">
+                {% endif %}
+            </div>
+            <input name="email" value="{{email}}" type="hidden">
+            <input name="password" value="{{password}}" type="hidden">
+            <div class="row">
+                <div class='input-field col s12'>
+                    <input type="text" id="name-input" name="nickname" required value={{nickname}}>
+                    <label for="name-input">Display name</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input type="text" class="datepicker" id="date-of-birth-input" name="date_of_birth" required value={{birth_date}}>
+                    <label for="date-of-birth-input">Date of birth</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <select id="gender-select" name="gender" required>
+                        <option value="" disabled {% if not gender %} selected {% endif %}>Choose an option</option>
+                        <option value="M" {% if gender == "M" %} selected {% endif %}>Male</option>
+                        <option value="F" {% if gender == "F" %} selected {% endif %}>Female</option>
+                    </select>
+                    <label for="gender-select">Gender (for calculations only)</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class='input-field col s6'>
+                    <input type="number" id="height-input" name="height" step="0.1" min="0.1" required value={{height}}>
+                    <label for="height-input">Height [cm]</label>
+                </div>
+                <div class="input-field col s6">
+                    <input type="number" id="weight-input" name="weight" step="0.1" min="0.1" required value={{weight}}>
+                    <label for="weight-input">Weight [kg]</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class='file-field input-field col s12'>
+                    <div class="btn">
+                        <span>File</span>
+                        <input type="file" name="avatar">
+                    </div>
+                    <div class="file-path-wrapper">
+                        <input class="file-path validate" type="text">
+                    </div>
+                </div>
+            </div>
+            {% if error %}
+                <div class="row">
+                    <div class="col s12">
+                        <div class="alert error">{{error}}</div>
+                    </div>
+                </div>
+            {% endif %}
+            <div class="center-content">
+                <button class="btn waves-effect waves-light" type="submit" name="action">
+                    Submit
+                </button>
+            </div>
+        </form>
+    </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const datepicker = document.querySelectorAll('.datepicker')
+            M.Datepicker.init(
+                datepicker, 
+                {
+                    firstDay: 1,
+                    yearRange: 100,
+                    format: "yyyy-mm-dd",
+                    setDefaultDate: !!datepicker.value,
+                    defaultDate: datepicker.value
+                }
+            );
+            const genderSelect = document.querySelectorAll('select')
+            M.FormSelect.init(genderSelect, {});
+            genderSelect.addEventListener
+        });
+    </script>
+{% endblock %}

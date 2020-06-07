@@ -25,6 +25,10 @@ main{
     display: flex;
 }
 
+.datepicker-container {
+    color: black
+}
+
 article{
     display: flex;
     align-items: center;
@@ -140,9 +144,15 @@ article{
     position: unset;
 }
 
-.my-flex{
+.my-flex {
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+#edit-account-form {
+    background-color: #FFF;
+    padding: 1em;
+    border-radius: 10px;
 }
