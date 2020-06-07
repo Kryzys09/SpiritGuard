@@ -147,7 +147,7 @@ def handle_file(file, user):
 def load_friends(request):
     user = request.session['user']
     dict_friends = db.child('users').child(user['localId']).child('friends').get()
-    if dict_friends is None:
+    if dict_friends is not None:
         dict_friends = dict_friends.val()
         friends = []
 

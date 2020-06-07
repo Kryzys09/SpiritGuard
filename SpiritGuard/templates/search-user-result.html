@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Search results{% endblock %}
+{% block header %}
+{% endblock %}
+{% block content %}
+    <div style="background-color: #FFF; padding: 1em; border-radius: 10px">
+    {% if users %}
+        <ul>
+            {% for user in users %}
+            <li class="row user-list-row">
+                <a class="col s12" href="#">
+                    <img class="col s1" src={%static '/gfx/avatars/'%}{{user.avatar}}>
+                    <h4 class="col s11">{{user.nickname}}</h4>
+                </a>
+            </li>
+            <hr class = "list-divider">
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div class="error center-content">
+            <h5>No users with such nickname :C</h5>
+        </div>
+    {% endif %}
+    </div>
+{% endblock %}

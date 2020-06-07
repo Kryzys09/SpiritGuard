@@ -281,6 +281,13 @@ article{
     width: 15vw;
     height: 20vw;
 }
-.round{
+.round {
     border-radius: 15px;
+}
+.list-divider:last-of-type {
+    display: none;
+}
+
+.user-list-row {
+    margin:20px
 }

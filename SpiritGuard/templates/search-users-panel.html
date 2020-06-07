@@ -1,0 +1,11 @@
+<form id="search-form" method="post" action='/search_users/'>
+    {% csrf_token %}
+
+    <div class="center-content row">
+        <div class="input-field col s6" style="margin:auto">
+            <i class="fa fa-search prefix"></i>
+            <input id="queryInput" type="text" name="usersQuery">
+            <label for="usersQuery">Search users...</label>
+        </div>
+    </div>
+</form>
