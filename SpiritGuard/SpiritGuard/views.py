@@ -15,7 +15,7 @@ def main_page(request):
 def log_out(request):
     request.session.clear()
     print('CACHE CLEARED')
-    return redirect('/accounts/')
+    return redirect('/accounts/pre_login/')
 
 
 

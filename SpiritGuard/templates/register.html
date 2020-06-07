@@ -4,7 +4,7 @@
 {% block content %}
     <div class="center-content full-height">
         <h3>Create new account</h3>
-        <form action="/accounts/postRegister/" id="register-form" method="post">
+        <form action="/accounts/pre_login/postRegister/" id="register-form" method="post">
             {% csrf_token %}
             <div class="row">
                 <div class='input-field'>
@@ -23,21 +23,6 @@
                 <div class="input-field">
                     <input type="password" id="password-confirm-input" name="password-confirm" required>
                     <label for="password-confirm-input">Password confirmation</label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="input-field">
-                    <input type="number" id="weight-input" name="weight" required>
-                    <label for="weight-input">Weight</label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="input-field">
-                    <select id="gender-select" name="gender" form="register-form" required>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                    </select>
-                    <label for="gender-select">Gender</label>
                 </div>
             </div>
             {% if error %}

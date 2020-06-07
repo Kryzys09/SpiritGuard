@@ -217,7 +217,10 @@ function calculateSoberingTime(gender, bac, dateTime=new Date()){
 function calculateMaxAlcoholIntake(gender, finishDate, nowDate=new Date(), startBAC=0.0, endBAC=0.0){
     startBAC += endBAC;
     let time = dateDiffInHours(nowDate, finishDate);
-    console.log(time)
+    if(time < 0){
+        alert("End date is before start date!")
+        return 0
+    }
     return startBAC + (METABOLISM[gender] * time * 10)
 }
 
