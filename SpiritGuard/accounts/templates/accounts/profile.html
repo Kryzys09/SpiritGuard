@@ -1,10 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h1>{{ name }} {{ age }}</h1>
+    <div class="name-age-header">
+        <h1 style="color:black">{{ name }} {{ age }}</h1>
+    </div>
     <br/>
-    <img  src="{{ avatar }}" onerror="this.src='../../../static/gfx/avatars/default2.png';" alt="profile picture">
+    <div class="profile-photo">
+        <img  src="{{ avatar }}" onerror="this.src='../../../static/gfx/avatars/default2.png';" alt="profile picture">
+    </div>
     <br/><br/>
-    <button class="btn">Add Friend</button>
+    <div class="button-holder">
+        <button class="btn">Add Friend</button>
+    </div>
     <br/><br/>
     <div class="square"> 
     <!-- {{logs}} W sumie walic te logi na ten moment. Zamiast tego zrób po prostu jakiegoś prostokątnego diva
