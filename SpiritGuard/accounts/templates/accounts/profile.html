@@ -2,11 +2,11 @@
 {% block content %}
     <h1>{{ name }} {{ age }}</h1>
     <br/>
-    <img src="{{ avatar }}" alt="profile picture">
+    <img  src="{{ avatar }}" onerror="this.src='../../../static/gfx/avatars/default2.png';" alt="profile picture">
     <br/><br/>
     <button class="btn">Add Friend</button>
     <br/><br/>
-    <div>
+    <div class="square"> 
     <!-- {{logs}} W sumie walic te logi na ten moment. Zamiast tego zrób po prostu jakiegoś prostokątnego diva
         do którego będziemy mogli wrzucic sobie wykres (może byc kafelek podobny do tych z main-panela, ale w sumie
         jak ci wygodniej to i tak bez dużego znaczenia. Generalnie staraj się stylowo to przypasowac jakos do tego
