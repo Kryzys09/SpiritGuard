@@ -2,6 +2,160 @@ body, html {
     height: 100%;
 }
 
+a{
+    color: black;
+    text-decoration: none;
+}
+
+body{
+    background-color: var(--color3);
+    color: var(--color0);
+}
+footer{
+
+  position: absolute;
+
+  right: 0;
+  bottom: 0px;
+  width: 15%;
+  height: 100%;
+
+
+
+}
+
+main{
+    border-radius: 15px;
+    height: 90%;
+    margin: 10px;
+    box-shadow: 0 0 10px black;
+}
+
+.square {
+    border: 3px solid black;
+    border-radius : 15px;
+    text-align: center;
+    width: 100%;
+}
+.panel-row{
+    width: 100%;
+    height: 50%;
+    display: flex;
+}
+
+.datepicker-container {
+    color: black
+}
+.panel-row2{
+
+
+}
+.panel-row3{
+    position: absolute;
+    left: 30%;
+}
+.panel-row4{
+    color: black;
+    margin-left:35%;
+    margin-right:0;
+
+}
+.panel-row5 {
+    margin-top: -50px;
+}
+.log-out-icon{
+    width: 3%;
+
+    margin-left:15px;
+    margin-top:5px;
+    border-radius: 100px;
+    background: #ec9d00;
+
+
+}
+
+article{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
+}
+
+.main-page-text{
+    font-size: 3vw;
+}
+
+.icon-large{
+    font-size: 13vw;
+}
+.icon-medium{
+    font-size: 8vw;
+}
+.icon-2vw{
+   font-size: 2vw;
+   color: white;
+    margin-left:8px;
+}
+
+.main-panel-tile {
+    transition: all .1s ease-in-out;
+    flex: 1;
+    overflow: hidden;
+    border: 1vw solid white;
+    background-color: var(--color4);
+    color: var(--color0);
+}
+
+.classic-modal {
+    border: 2vw solid white;
+    border-radius: 15px;
+    /* background-color: var(--color4); */
+    color: white;
+}
+
+.btn{
+    border: 1px solid white;
+    border-radius: 15px;
+    background-color: var(--color4);
+    color: white;  
+}
+
+.classic-modal-footer {
+    color: black;
+    text-align: center;
+}
+
+.main-panel-tile:hover {
+    transform: scale(1.05);
+}
+
+.panel-row:first-child{
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.panel-row:last-child{
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+.panel-row:first-child > .main-panel-tile:first-child{
+    border-top-left-radius: 15px;
+}
+
+.panel-row:first-child > .main-panel-tile:last-child{
+    border-top-right-radius: 15px;
+}
+
+.panel-row:last-child > .main-panel-tile:first-child{
+    border-bottom-left-radius: 15px;
+}
+
+.panel-row:last-child > .main-panel-tile:last-child{
+    border-bottom-right-radius: 15px;
+}
+
 .full-height {
     height: 100%;
 }
@@ -32,4 +186,108 @@ body, html {
 
 .align-right {
     text-align: right;
+}
+
+.flex-el-center {
+    text-align: center;
+}
+
+#calcDatePicker .datepicker-container {
+    position: unset;
+}
+
+#calcDatePicker .datepicker-day-button {
+    color: black;
+}
+
+#calcTimePicker .timepicker-container {
+    position: unset;
+}
+
+.my-flex {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#edit-account-form {
+    background-color: #FFF;
+    padding: 1em;
+    border-radius: 10px;
+}
+
+.friend-list-main{
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    overflow: auto;
+
+    border: solid 1vw var(--color0);
+
+    background-color: var(--color5);
+}
+
+.friend-row{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--color0);
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+}
+
+.friend-row:hover{
+    background-color: var(--color4);
+}
+
+.friend-avatar-container{
+    width: 100px;
+    height: 100px;
+    padding: 0px;
+    overflow: hidden;
+
+
+    border: 2px var(--color0) solid;
+    border-radius: 50px;
+}
+
+.friend-avatar{
+    background-size: cover;
+    width:100%;
+    height:100%;
+}
+
+.friend-name{
+    width: calc(80% - 100px)
+}
+
+.friend-age{
+    width: 20%
+}
+
+.modal-content {
+    color: #000
+}
+
+
+#graph-container {
+    border-radius: 10px;
+    background-color: #FFF;
+    padding: 10px
+}
+
+.profile-photo{
+    width: 15vw;
+    height: 20vw;
+}
+.round {
+    border-radius: 15px;
+}
+.list-divider:last-of-type {
+    display: none;
+}
+
+.user-list-row {
+    margin:20px
 }

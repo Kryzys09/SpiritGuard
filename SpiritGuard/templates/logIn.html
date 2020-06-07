@@ -6,7 +6,7 @@
     <div class="center-content full-height">    
         <h2>Spirit Guard</h2>
         <img src="{% static 'gfx/logo.png'%}" style="height:auto">
-        <form action="/postsign/" method="post">
+        <form action="/accounts/pre_login/postsign/" method="post">
             {% csrf_token %}
             <div class="row">
                 <div class='input-field'>
@@ -40,6 +40,6 @@
                 </button>
             </div>
         </form>
-        <a href="/register/" style="margin-top:1em">Don't have an account?<b> Create one!</b></a>
+        <a href="/accounts/pre_login/register/" style="margin-top:1em">Don't have an account?<b> Create one!</b></a>
     </div>
 {% endblock %}

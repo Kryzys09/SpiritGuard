@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Main Page{% endblock %}
+{% block header %}
+{% endblock %}
+{% block content %}
+    <main>
+        <section class="panel-row">
+            <a href="/accounts/profile?id={{ user_id }}" class="main-panel-tile">
+                <article>
+                    <i class="fa icon-large fa-user-tie"></i>
+                    <div class="main-page-text"> Profile </div>
+                </article>
+            </a>
+            <a href="/stats/" class="main-panel-tile">
+                <article>
+                    <i class="fa icon-large fa-chart-bar"></i>
+                    <div class="main-page-text"> Stats </div>
+                </article>
+            </a>
+            <a href="/accounts/friends/" class="main-panel-tile">
+                <article>
+                    <i class="fa icon-large fa-users"></i>
+                    <div class="main-page-text"> Friends </div>
+                </article>
+            </a>
+        </section>
+        <section class="panel-row">
+            <a href="/logout" class="main-panel-tile">
+                <article>
+                    <i class="fa icon-large fa-times"></i>
+                    <div class="main-page-text"> Logout </div>
+                </article>
+            </a>
+            <a href="/alcohols/calculators/" class="main-panel-tile">
+                <article>
+                    <i class="fa icon-large fa-calculator"></i>
+                    <div class="main-page-text"> Calculators </div>
+                </article>
+            </a>
+            <a href="/accounts/settings/" class="main-panel-tile">
+                <article>
+                    <i class="fa icon-large fa-cogs"></i>
+                    <div class="main-page-text"> Settings </div>
+                </article>
+            </a>
+        </section>
+    </main>
+{% include 'newAlcoholWidget.html' %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.dropdown-trigger');
+    var instances = M.Dropdown.init(elems);
+  });
+
+
+</script>
+{% endblock %}

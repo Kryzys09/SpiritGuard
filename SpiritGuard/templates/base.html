@@ -6,16 +6,28 @@
 <head>
     <meta charset="UTF-8">
     <title>Spirit Guard - {% block title %}{% endblock %}</title>
-    <link href="{% static '/css/main.css' %}" rel="stylesheet">
     <link href="{% static '/css/materialize.min.css' %}" rel="stylesheet">
+    <link href="{% static '/css/colors.css' %}" rel="stylesheet">
+    <link href="{% static '/css/main.css' %}" rel="stylesheet">
+    <link href="{% static '/fontawesome/css/all.css' %}" rel="stylesheet">
     <script src="{% static '/js/materialize.min.js' %}"></script>
+    <script src="{% static '/js/calculations.js' %}"></script>
+    {% block head %}
+    {% endblock %}
 </head>
 
 <body>
+    <header>
+        <div class="log-out-icon">
+            <a href="/" ><i class="far icon-2vw fa fa-sign-out-alt"></i></a>
+        </div>
+        {% include 'search-users-panel.html' %}
+    </header>
     <div class="container full-height">
         {% block content %}
         {% endblock %}
     </div>
+
 </body>
 
 </html>

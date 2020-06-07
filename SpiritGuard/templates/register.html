@@ -2,9 +2,9 @@
 {% load static %}
 {% block title %}Register{% endblock %}
 {% block content %}
-    <div class="center-content full-height">    
+    <div class="center-content full-height">
         <h3>Create new account</h3>
-        <form action="/postRegister/" method="post">
+        <form action="/accounts/pre_login/postRegister/" id="register-form" method="post">
             {% csrf_token %}
             <div class="row">
                 <div class='input-field'>
@@ -38,5 +38,5 @@
                 </button>
             </div>
         </form>
-        </div>
+    </div>
 {% endblock %}

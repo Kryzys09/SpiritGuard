@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="name-age-header">
+        <h1 style="color:black">{{ name }} {{ age }}</h1>
+    </div>
+
+    <!-- <h1>name age</h1>-->
+
+    <br/>
+    <div class="profile-photo">
+        <img class="round" width="100%" height="100%" src="{{ avatar }}" onerror="this.src='../../../static/gfx/avatars/default2.png';" alt="profile picture">
+    </div>
+    <br/><br/>
+    <div class="button-holder">
+        <a class="btn" href="/accounts/add_friend?id={{ local_id }}">Add Friend</a>
+    </div>
+    <br/><br/>
+    <div id='graph-container' class="square">
+        {{ chart|safe }}
+    <!-- {{logs}} W sumie walic te logi na ten moment. Zamiast tego zrób po prostu jakiegoś prostokątnego diva
+        do którego będziemy mogli wrzucic sobie wykres (może byc kafelek podobny do tych z main-panela, ale w sumie
+        jak ci wygodniej to i tak bez dużego znaczenia. Generalnie staraj się stylowo to przypasowac jakos do tego
+        designu co jest w calej apce (main-panel głównie). Jakby co to uzywamy Materialize.css, on bardzo ułatwia
+        dodawanie jakichś skomplikowanych struktur jak modale albo date pickery, chociaz tutaj raczej proste rzeczy
+        tylko będą. CSSowe style są w static/css/main.css, a panel glowny w templates/main-panel. Jak chcesz
+        jakies przykladowe konto to sobie załóż po prostu bo rejestracja powinna dobrze działac -->
+    <!-- adres do tej stronki tutaj to '/accounts/profile/', ale musisz byc zalogowany bo juz wlaczylem zabezpieczenia
+        autoryzacyjne -->
+    </div>
+{% endblock %}
