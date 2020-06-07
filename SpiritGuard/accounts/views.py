@@ -7,6 +7,7 @@ from django.core.files.storage import FileSystemStorage
 
 firebase = pyrebase.initialize_app(config)
 db = firebase.database()
+storage = firebase.storage()
 auth = firebase.auth()
 
 
@@ -55,6 +56,8 @@ def send_register_request(request):
 
 def render_edit_account_details(request):
     user_data = {}
+    user = request.session['user']
+    storage.child('images/' + user['localId'] + '.jpg').download('static/gfx/avatar.jpg')
     if 'user' in request.session.keys():
         user = request.session['user']
         user_data = db.child('users') \
@@ -79,7 +82,7 @@ def register_new_user(request):
             return render(
                 request,
                 "editAccountDetails.html",
-                { "error": "Za młody jesteś mordo" }
+                { "error": "Za młody jesteś byczq" }
             )
         
         if 'user' in request.session.keys():
@@ -89,7 +92,7 @@ def register_new_user(request):
         if 'avatar' not in request.FILES.keys():
             file_path = 'default2.png'
         else:
-            file_path = handle_file(request.FILES['avatar'], user['localId']+'.jpg')
+            file_path = handle_file(request.FILES['avatar'], user)
 
         data = generate_user_data_object(request.POST, birth_date)
         if data['gender'] == "":
@@ -128,10 +131,7 @@ def generate_user_data_object(request_data, birth_date):
     }
 
 
-def handle_file(file, file_name):
-    fs = FileSystemStorage()
-    file_path = 'static/gfx/avatars/' + file_name
-    if fs.exists(file_path):
-        fs.delete(file_path)
-    fs.save(file_path, file)
+def handle_file(file, user):
+    file_name = user['localId'] + '.jpg'
+    storage.child('images/' + file_name).put(file)
     return file_name
