@@ -8,6 +8,6 @@ urlpatterns = [
     url(r'^postsign/', views.send_log_in_request),
     url(r'^postRegister/', views.send_register_request),
     url(r'^register/', views.render_register_page),
-    url(r'^edit_account_details/', views.render_edit_account_details),
+    url(r'^settings/', views.render_edit_account_details),
     url(r'^register_next/', views.register_new_user),
 ]

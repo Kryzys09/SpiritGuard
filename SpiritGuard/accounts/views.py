@@ -55,6 +55,7 @@ def send_register_request(request):
         { "email": email, "password": password }
     )
 
+
 def render_edit_account_details(request):
     user_data = {}
     user = request.session['user']
