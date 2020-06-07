@@ -270,3 +270,10 @@ article{
 .modal-content {
     color: #000
 }
+
+#graph-container {
+    min-height:600px;
+    border-radius:10px;
+    background-color:#FFF;
+    padding:10px
+}

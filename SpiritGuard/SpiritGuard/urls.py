@@ -14,5 +14,6 @@ urlpatterns = [
     url(r'^post_create/', views.post_create),
     url(r'^post_add_beer/', views.post_add_beer),
     url(r'^post_add_wine/', views.post_add_wine),
-    url(r'^post_add_vodka/', views.post_add_vodka)
+    url(r'^post_add_vodka/', views.post_add_vodka),
+    url(r'^stats/', views.render_chart)
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
