@@ -69,6 +69,7 @@ def render_edit_account_details(request):
             .val()
         user_data = dict(user_data)
         user_data['link'] = '/accounts/register_next/'
+        user_data['avatar'] = db.child('users').child(user['localId']).child('avatar').get().val()
 
     return render(request, "editAccountDetails.html", user_data)
 
@@ -168,4 +169,21 @@ def load_friends(request):
 
 
 def load_profile(request):
-    return render(request, 'accounts/profile.html')
+    local_id = request.GET['id']
+    user_db = db.child('users').child(local_id).get().val()
+    if 'logs' in user_db:
+        logs = user_db['logs']
+    else:
+        logs = []
+    if 'avatar' in user_db:
+        avatar = user_db['avatar']
+    else:
+        avatar = 'SpiritGuard/static/gfx/avatars/default2.png'
+    user = Friend(local_id, user_db['nickname'], user_db['birth_date'], avatar, logs)
+    data = {
+        'name': user.name,
+        'age': user.age,
+        'avatar': user.image,
+        'logs': user.logs
+    }
+    return render(request, 'accounts/profile.html', data)

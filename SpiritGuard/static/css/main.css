@@ -11,6 +11,18 @@ body{
     background-color: var(--color3);
     color: var(--color0);
 }
+footer{
+
+  position: absolute;
+
+  right: 0;
+  bottom: 0px;
+  width: 15%;
+  height: 100%;
+
+
+
+}
 
 main{
     border-radius: 15px;
@@ -35,6 +47,33 @@ main{
 .datepicker-container {
     color: black
 }
+.panel-row2{
+
+
+}
+.panel-row3{
+    position: absolute;
+    left: 30%;
+}
+.panel-row4{
+    color: black;
+    margin-left:35%;
+    margin-right:0;
+
+}
+.panel-row5 {
+    margin-top: -50px;
+}
+.log-out-icon{
+    width: 3%;
+
+    margin-left:15px;
+    margin-top:5px;
+    border-radius: 100px;
+    background: #ec9d00;
+
+
+}
 
 article{
     display: flex;
@@ -51,6 +90,14 @@ article{
 .icon-large{
     font-size: 13vw;
 }
+.icon-medium{
+    font-size: 8vw;
+}
+.icon-2vw{
+   font-size: 2vw;
+   color: white;
+    margin-left:8px;
+}
 
 .main-panel-tile {
     transition: all .1s ease-in-out;
@@ -64,7 +111,7 @@ article{
 .classic-modal {
     border: 2vw solid white;
     border-radius: 15px;
-    background-color: var(--color4);
+    /* background-color: var(--color4); */
     color: white;
 }
 
@@ -218,4 +265,8 @@ article{
 
 .friend-age{
     width: 20%
+}
+
+.modal-content {
+    color: #000
 }

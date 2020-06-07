@@ -45,8 +45,8 @@
             <div class="row">
                 <div class="input-field col s12">
                     <select id="gender-select" id="gender-select" name="gender" required>
-                        <option value="M" {% if gender == 0 %} selected {% endif %}>male</option>
-                        <option value="F" {% if gender > 0 %} selected {% endif %}>female</option>
+                        <option value="M" {% if gender == 0 %} selected {% endif %}>Male</option>
+                        <option value="F" {% if gender > 0 %} selected {% endif %}>Female</option>
                     </select>
                     <label for="gender-select">Gender</label>
                 </div>
@@ -60,21 +60,22 @@
             <div class="row">
                 <div class="input-field col s6" id="calcDatePicker">
                     <input type="text" id="date-input" class="datepicker">
-                    <label for="date-input">Dateof first drink</label>
+                    <label for="date-input">First drink date</label>
                 </div>
                 <div class="input-field col s6" id="calcTimePicker">
                     <input type="text" id="time-input" class="timepicker">
-                    <label for="time-input">Time of first drink</label>
+                    <label for="time-input">First drink time</label>
                 </div>
             </div>
+            <div class=""
             <div class="row">
-                Spożyte alkohole:
+                Consumed alcohols:
                 <table>
                     <thead>
                         <tr>
                             <th>Name</th>
                             <th>Volume</th>
-                            <th>Percentage</th>
+                            <th>Alcohol content</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -139,8 +140,8 @@
             <div class="row">
                 <div class="input-field col s12">
                     <select id="gender-select-to-drink" name="gender-to-dink" required>
-                        <option value="M" {% if gender == 0 %} selected {% endif %}>male</option>
-                        <option value="F" {% if gender > 0 %} selected {% endif %}>female</option>
+                        <option value="M" {% if gender == 0 %} selected {% endif %}>Male</option>
+                        <option value="F" {% if gender > 0 %} selected {% endif %}>Female</option>
                     </select>
                     <label for="gender-select-to-drink">Gender</label>
                 </div>
@@ -164,16 +165,16 @@
             <div class="row">
                 <div class="input-field col s6" id="calcDatePicker">
                     <input type="text" id="date-input-end" class="datepicker" value="{{ date_of_last_drink }}">
-                    <label for="date-input-end">Date of first drink</label>
+                    <label for="date-input-end">Date of sobering up</label>
                 </div>
                 <div class="input-field col s6" id="calcTimePicker">
                     <input type="text" id="time-input-end" class="timepicker" value="{{ time_of_last_drink }}">
-                    <label for="time-input-end">Time of first drink</label>
+                    <label for="time-input-end">Time of sobering up</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s6">
-                    <input type="number" id="start-bac" name="start-bac" step="0.01" min="0.0" required value="0.0">
+                    <input type="number" id="start-bac" name="start-bac" step="0.01" min="0.0" required value="{{ bac }}">
                     <label for="start-bac">BAC at the start</label>
                 </div>
                 <div class="input-field col s6">
@@ -187,7 +188,7 @@
                 get max BAC
             </button>
             <div>
-                max alcohol intake:
+                Max alcohol intake:
                 <div id="max-alcohol-intake">
                     {{ max_alcohol_intake }}
                 </div>
@@ -199,19 +200,23 @@
 
     <div id="modal-alcohols" class="modal classic-modal modal-fixed-footer">
         <div class="modal-content">
+            <h5>You can drink</h5>
             <table class="table">
                 <tbody>
-                    Drinks (ml)
                     <tr>
-                        <td>Beer: </td>
+                        <th>Drink name</th>
+                        <th>Volume [ml]</th>
+                    </tr>
+                    <tr>
+                        <td>Beer</td>
                         <td id="beer-to-drink">{{ translate_bac.beer }}</td>
                     </tr>
                     <tr>
-                        <td>Wine: </td>
+                        <td>Wine</td>
                         <td id="wine-to-drink">{{ translate_bac.wine }}</td>
                     </tr>
                     <tr>
-                        <td>Vodka: </td>
+                        <td>Vodka</td>
                         <td id="vodka-to-drink">{{ translate_bac.vodka }}</td>
                     </tr>
                 </tbody>

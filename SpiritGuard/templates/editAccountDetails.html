@@ -13,7 +13,7 @@
             {% csrf_token %}
             <div class="row center-content">
                 {% if avatar %}
-                    <img src="{%static '/gfx/avatar.jpg' %}" style="width: 128px">
+                    <img src="{{ avatar }}" style="width: 128px">
                 {% else %}
                     <img src='/static/gfx/avatars/default2.png' style="width: 128px">
                 {% endif %}

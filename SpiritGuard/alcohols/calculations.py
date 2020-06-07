@@ -12,10 +12,11 @@ MIL_TO_GRAM = 0.789
 
 
 class Alcohol:
-    def __init__(self, name, volume, percentage):
+    def __init__(self, name, volume, percentage, date):
         self.name = name
         self.volume = volume
         self.percentage = percentage
+        self.date = date
 
     def __str__(self):
         return self.name
@@ -80,9 +81,8 @@ aby wytrzeźwieć (albo raczej osiągnąć podany poziom)
 @return (float) - maksymalne stążenie początkowe, żeby organizm zdążył zejść do stężenia końcowego (promile)
 """
 def max_alcohol_intake(gender, date_finish, date_now=datetime.datetime.now(), start_bac=0.0, end_bac=0.0):
-    start_bac += end_bac
     time = date_finish - date_now
-    return start_bac + METABOLISM[gender]*time.total_seconds()/360
+    return end_bac - start_bac + METABOLISM[gender]*time.total_seconds()/360
 
 
 """
@@ -100,7 +100,11 @@ def translate_bac(gender, weight, bac, alcohols):
     amounts = {}
     grams = (bac * BODY_WATER[gender] * weight)/(1.2 * WATER_IN_BLOOD)
     for alc in alcohols:
-        amounts[str(alc)] = int(grams/(alc.percentage * MIL_TO_GRAM))
+        am = int(grams/(alc.percentage * MIL_TO_GRAM))
+        if am > 0:
+            amounts[str(alc)] = am
+        else:
+            amounts[str(alc)] = 0
 
     return amounts
 
@@ -128,8 +132,43 @@ def interprete_bmi(bmi):
         return "overweight"
 
 
+def get_sober_date(gender, bac, date=datetime.datetime.now()):
+    hours = bac/(METABOLISM[gender]*10)
+    print(date + datetime.timedelta(hours=hours))
+    return date + datetime.timedelta(hours=hours)
+
+
+def get_relevant_drinks(gender, weight, drinks):
+    if len(drinks) == 0:
+        return []
+    start_date = datetime.datetime.strptime(drinks[0].date, "%d-%m-%Y %H:%M")
+    relevant_drinks = [drinks[0]]
+    for i in range(1, len(drinks)):
+        bac = blood_alcohol_content(gender, relevant_drinks, weight, 0)
+        sd = get_sober_date(gender, bac, start_date)
+        newd = datetime.datetime.strptime(drinks[1].date, "%d-%m-%Y %H:%M")
+        print("SD: ", sd)
+        print("NEWD: ", newd)
+        if sd <= newd:
+            print("DISCARDED: ", relevant_drinks)
+            relevant_drinks = []
+            start_date = newd
+        relevant_drinks.append(drinks[i])
+
+    bac = blood_alcohol_content(gender, relevant_drinks, weight, 0)
+    sd = get_sober_date(gender, bac, start_date)
+    if sd < datetime.datetime.now():
+        return []
+    return relevant_drinks
+
+
+
+
+
+
+
 classic_alcohols = [
-    Alcohol("beer", 500, 0.05),
-    Alcohol("wine", 500, 0.116),
-    Alcohol("vodka", 50, 0.4)
+    Alcohol("beer", 500, 0.05, "1-1-2020 00:00"),
+    Alcohol("wine", 500, 0.116, "1-1-2020 00:00"),
+    Alcohol("vodka", 50, 0.4, "1-1-2020 00:00")
 ]

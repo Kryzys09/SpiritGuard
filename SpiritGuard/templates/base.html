@@ -18,12 +18,15 @@
 
 <body>
     <header>
-        <a href="/logout/" style="margin-top:1em">Log out</a>
+        <div class="log-out-icon">
+            <a href="/" ><i class="far icon-2vw fa fa-sign-out-alt"></i></a>
+        </div>
     </header>
     <div class="container full-height">
         {% block content %}
         {% endblock %}
     </div>
+
 </body>
 
 </html>
