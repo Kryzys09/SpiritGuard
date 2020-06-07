@@ -1,0 +1,31 @@
+{% load static %}
+ <footer>
+<div>
+
+ <section class="panel-row3">
+  <a class='dropdown-trigger btn' href='#' data-target='dropdown1'>Quick Add</a>
+
+
+
+  <ul id='dropdown1' class='dropdown-content'>
+    <li><a href="/addAlcohol/"><section class ="panel-row2">
+         <i class="far icon fa fa-plus"> other</i>
+            </section></a></li>
+
+      <li class="divider" tabindex="-1"></li>
+    {% csrf_token %}
+    <li><a href="/post_add_wine/"><section class ="panel-row2">
+        <i class="far icon fa fa-wine-glass"> wine</i>
+        </section></a></li>
+    <li><a href="/post_add_vodka/"><section class ="panel-row2">
+        <i class="far icon fa fa-glass-whiskey" > vodka</i>
+        </section></a></li>
+    <li><a href="/post_add_beer/"><section class ="panel-row2">
+        <i class="far icon fa fa-beer" > beer</i>
+        </section></a></li>
+
+  </ul>
+        </section>
+
+</div>
+     </footer>

@@ -18,27 +18,72 @@ def log_out(request):
     return redirect('/accounts/')
 
 
+def addAlcohol(request):
+    now = datetime.datetime.now() + datetime.timedelta(hours=2)
+    date = "{d:02d}-{m:02d}-{y:04d}".format(d=now.date().day, m=now.date().month, y=now.date().year)
+    time = "{h:02d}:{m:02d}".format(h=now.time().hour, m=now.time().minute)
 
-def newpage(request):
+    data = {
+        'date': date,
+        'time': time
+    }
+    return render(request, "addAlcohol.html", data)
 
-    alcohols = database.child("alcohols").shallow().get().val()
-    alcohols_list = []
-    for i in alcohols:
-        alcohols_list.append(i)
-
-    alcohols_list.sort(reverse = False)
-
-
-
-    return render(request, "newpagee.html",{'alcohols_list':alcohols_list})
 
 def post_create(request):
-    work = request.POST.get('work')
+    name = request.POST.get('name-input')
+    volume = request.POST.get('volume-input')
+    percentage = request.POST.get('percentage-input')
+    date = request.POST.get('date-input').replace("T", " ")
     data={
-        'work':work
+        'name':name,
+        'volume':volume,
+        'percentage':percentage,
+        'date':date
     }
-    print('WORK: ', work)
-    database.child('users').push(data)
+    idtoken = request.session['user']['localId']
+    database.child('users').child(idtoken).child('logs').push(data)
+
+    return render(request, "addAlcohol.html")
 
 
-    return render(request,"newpagee.html")
+def post_add_wine(request):
+    now = datetime.datetime.now() + datetime.timedelta(hours=2)
+    date = "{d:02d}-{m:02d}-{y:04d}".format(d=now.date().day, m=now.date().month, y=now.date().year)
+    time = "{h:02d}:{m:02d}".format(h=now.time().hour, m=now.time().minute)
+    data = {
+        'name': 'wine',
+        'volume': 150,
+        'percentage': 0.116,
+        'date': date + ' ' + time
+    }
+    idtoken = request.session['user']['localId']
+    database.child('users').child(idtoken).child('logs').push(data)
+    return render(request, "main-panel.html")
+def post_add_beer(request):
+    now = datetime.datetime.now() + datetime.timedelta(hours=2)
+    date = "{d:02d}-{m:02d}-{y:04d}".format(d=now.date().day, m=now.date().month, y=now.date().year)
+    time = "{h:02d}:{m:02d}".format(h=now.time().hour, m=now.time().minute)
+    data = {
+        'name': 'beer',
+        'volume': 500,
+        'percentage': 0.05,
+        'date': date + ' ' + time
+    }
+    idtoken = request.session['user']['localId']
+    database.child('users').child(idtoken).child('logs').push(data)
+    return render(request, "main-panel.html")
+def post_add_vodka(request):
+
+    now = datetime.datetime.now() + datetime.timedelta(hours=2)
+    date = "{d:02d}-{m:02d}-{y:04d}".format(d=now.date().day, m=now.date().month, y=now.date().year)
+    time = "{h:02d}:{m:02d}".format(h=now.time().hour, m=now.time().minute)
+    data = {
+        'name': 'vodka',
+        'volume': 30,
+        'percentage': 0.40,
+        'date': date + ' ' + time
+    }
+    idtoken = request.session['user']['localId']
+    database.child('users').child(idtoken).child('logs').push(data)
+    return render(request, "main-panel.html")

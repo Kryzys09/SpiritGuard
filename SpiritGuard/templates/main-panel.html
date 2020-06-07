@@ -46,4 +46,13 @@
             </a>
         </section>
     </main>
+{% include 'newAlcoholWidget.html' %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.dropdown-trigger');
+    var instances = M.Dropdown.init(elems);
+  });
+
+
+</script>
 {% endblock %}
