@@ -2,9 +2,9 @@
 {% load static %}
 {% block title %} Friends {% endblock %}
 {% block content %}
-<main style="overflow: hidden" class="friend-list-main">
-        {% for friend in friends %}
-            {% include 'friends/friend.html' %}
-        {% endfor %}
-</main>
+    <main style="overflow: hidden" class="friend-list-main">
+            {% for friend in friends %}
+                {% include 'friends/friend.html' %}
+            {% endfor %}
+    </main>
 {% endblock %}

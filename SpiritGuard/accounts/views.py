@@ -199,7 +199,13 @@ def load_profile(request):
             "title_text": "Alcohol in grams [g]"
         }
     )
-    user = Friend(local_id, user_db['nickname'], user_db['birth_date'], avatar, logs)
+    if 'nickname' in user_db:
+        nickname = user_db['nickname']
+    else:
+        nickname = ""
+
+    print("ERROR: ", user_db)
+    user = Friend(local_id, nickname, user_db['birth_date'], avatar, logs)
     data = {
         'local_id': local_id,
         'name': user.name,
@@ -215,3 +221,30 @@ def add_friend(request):
     new_id = request.GET.get('id')
     db.child('users').child(request.session['user']['localId']).child('friends').set({new_id: '.'})
     return redirect('/accounts/profile?id=' + new_id)
+
+
+def get_users_list(request):
+    users = db.child('users').get().val()
+    se_users = []
+    for localId in users:
+        user = users[localId]
+        if 'nickname' in user and request.POST.get('queryInput') in user['nickname']:
+            if 'logs' in user:
+                logs = user['logs']
+            else:
+                logs = []
+            if 'avatar' in user:
+                avatar = user['avatar']
+            else:
+                avatar = 'SpiritGuard/static/gfx/avatars/default2.png'
+            se_users.append(Friend(localId, user['nickname'], user['birth_date'], avatar, logs=logs))
+
+    data = {
+        'friends': se_users
+    }
+
+    return render(request, 'friends/friends.html', data)
+
+
+def safe_get(entry, field, default_val):
+    return entry[field] if field in entry.keys() else default_val

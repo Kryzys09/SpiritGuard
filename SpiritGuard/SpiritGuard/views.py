@@ -179,22 +179,3 @@ def generate_chart_data_object():
     return {
         datetime.today().date() - timedelta(days=i): 0 for  i in range(30)
     }
-
-def get_users_list(request):
-    query = request.POST['usersQuery']
-    users = database \
-        .child('users') \
-        .get() \
-        .val()
-    users = [
-        {
-            "nickname": safe_get(user[1], 'nickname', ''),
-            "avatar": safe_get(user[1], 'avatar', 'default2.png')
-        } for user in users.items() if safe_get(user[1], 'nickname', '')
-    ]
-    users = [user for user in users if re.search(query, user['nickname'])]
-    return render(request, 'search-user-result.html', { "users": users })
-
-
-def safe_get(entry, field, default_val):
-    return entry[field] if field in entry.keys() else default_val
