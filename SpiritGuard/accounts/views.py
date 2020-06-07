@@ -143,10 +143,11 @@ def handle_file(file, user):
     url = storage.child('images/' + file_name).get_url(user['idToken'])
     return url
 
+
 def load_friends(request):
     user = request.session['user']
-    dict_friends = db.child('users').child(user['localId']).child('friends').get().val()
-    if dict_friends:
+    dict_friends = db.child('users').child(user['localId']).child('friends').get()
+    if dict_friends is None:
         dict_friends = dict_friends.val()
         friends = []
 
