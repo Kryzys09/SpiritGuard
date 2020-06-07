@@ -1,4 +1,5 @@
 from datetime import datetime, date
+from .friends import Friend
 import pyrebase
 from django.shortcuts import render, redirect
 from requests.exceptions import HTTPError
@@ -139,3 +140,23 @@ def handle_file(file, user):
     file_name = user['localId'] + '.jpg'
     storage.child('images/' + file_name).put(file)
     return file_name
+
+def load_friends(request):
+    user = request.session['user']
+    dict_friends = db.child('users').child(user['localId']).child('friends').get().val().keys()
+    friends = []
+
+    for friend_id in dict_friends:
+        friend = db.child('users').child(friend_id).get().val()
+        print(friend)
+        if 'logs' in friend:
+            logs = friend['logs']
+        else:
+            logs = []
+        friends.append(Friend(friend_id, friend['nickname'], friend['birth_date'], logs))
+
+    data = {
+        'friends': friends
+    }
+
+    return render(request, 'friends/friends.html', data)

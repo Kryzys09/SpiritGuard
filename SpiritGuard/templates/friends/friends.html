@@ -1,17 +1,7 @@
+{% extends 'base.html' %}
 {% load static %}
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <title>Spirit Guard - {% block title %}{% endblock %}</title>
-    <meta charset="UTF-8">
-    <link href="{% static '/css/friends.css' %}" rel="stylesheet">
-    <link href="{% static '/css/materialize.min.css' %}" rel="stylesheet">
-    <script src="{% static '/js/materialize.min.js' %}"></script>
-</head>
-
-<body>
+{% block title %} Friends {% endblock %}
+{% block content %}
 <div class="fp">
     <div class="hdr-flx">
         <div class="hdr">
@@ -22,6 +12,4 @@
     </div>
     {% include 'friends/friends_list.html' %}
 </div>
-</body>
-
-</html>
+{% endblock %}
