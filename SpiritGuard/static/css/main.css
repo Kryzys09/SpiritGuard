@@ -270,3 +270,12 @@ article{
 .modal-content {
     color: #000
 }
+
+.profile-photo{
+    width: 15vw;
+    height: 20vw;
+}
+.round{
+    border-radius: 15px;
+    
+}
