@@ -1,4 +1,5 @@
 from datetime import datetime, date
+from .friends import Friend
 import pyrebase
 from django.shortcuts import render, redirect
 from requests.exceptions import HTTPError
@@ -52,7 +53,7 @@ def send_register_request(request):
     return render(
         request,
         "editAccountDetails.html",
-        { "email": email, "password": password }
+        { "email": email, "password": password, "link": '/accounts/pre_login/register_next/'}
     )
 
 
@@ -67,6 +68,7 @@ def render_edit_account_details(request):
             .get() \
             .val()
         user_data = dict(user_data)
+        user_data['link'] = '/accounts/register_next/'
 
     return render(request, "editAccountDetails.html", user_data)
 
@@ -92,7 +94,7 @@ def register_new_user(request):
         else:
             user = auth.create_user_with_email_and_password(email, password)
         if 'avatar' not in request.FILES.keys():
-            file_path = 'default2.png'
+            file_path = ''
         else:
             file_path = handle_file(request.FILES['avatar'], user)
 
@@ -100,7 +102,8 @@ def register_new_user(request):
         if data['gender'] == "":
             raise ValueError()
         data['email'] = email
-        data['avatar'] = file_path
+        if len(file_path) > 0:
+            data['avatar'] = file_path
         db.child('users') \
             .child(user['localId']) \
             .update(data, user['idToken'])
@@ -136,4 +139,33 @@ def generate_user_data_object(request_data, birth_date):
 def handle_file(file, user):
     file_name = user['localId'] + '.jpg'
     storage.child('images/' + file_name).put(file)
-    return file_name
+    url = storage.child('images/' + file_name).get_url(user['idToken'])
+    return url
+
+def load_friends(request):
+    user = request.session['user']
+    dict_friends = db.child('users').child(user['localId']).child('friends').get().val().keys()
+    friends = []
+
+    for friend_id in dict_friends:
+        friend = db.child('users').child(friend_id).get().val()
+        print(friend)
+        if 'logs' in friend:
+            logs = friend['logs']
+        else:
+            logs = []
+        if 'avatar' in friend:
+            avatar = friend['avatar']
+        else:
+            avatar = 'SpiritGuard/static/gfx/avatars/default2.png'
+        friends.append(Friend(friend_id, friend['nickname'], friend['birth_date'], avatar, logs))
+
+    data = {
+        'friends': friends
+    }
+
+    return render(request, 'friends/friends.html', data)
+
+
+def load_profile(request):
+    return render(request, 'accounts/profile.html')

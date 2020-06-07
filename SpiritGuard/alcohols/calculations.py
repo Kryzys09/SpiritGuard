@@ -39,7 +39,11 @@ def blood_alcohol_content(gender, alcohols, weight, hours):
     for alc in alcohols:
         overall += alc.percentage * alc.volume * MIL_TO_GRAM
 
-    return ((WATER_IN_BLOOD * overall * 0.12)/(BODY_WATER[gender]*weight) - (METABOLISM[gender]*hours))*10
+    bac = ((WATER_IN_BLOOD * overall * 0.12)/(BODY_WATER[gender]*weight) - (METABOLISM[gender]*hours))*10
+
+    if bac < 0:
+        return 0.0
+    return bac
 
 
 """

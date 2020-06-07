@@ -45,8 +45,8 @@
             <div class="row">
                 <div class="input-field col s12">
                     <select id="gender-select" id="gender-select" name="gender" required>
-                        <option value="M" {% if gender > 0 %} selected {% endif %}>male</option>
-                        <option value="F" {% if gender == 0 %} selected {% endif %}>female</option>
+                        <option value="M" {% if gender == 0 %} selected {% endif %}>male</option>
+                        <option value="F" {% if gender > 0 %} selected {% endif %}>female</option>
                     </select>
                     <label for="gender-select">Gender</label>
                 </div>
@@ -139,8 +139,8 @@
             <div class="row">
                 <div class="input-field col s12">
                     <select id="gender-select-to-drink" name="gender-to-dink" required>
-                        <option value="M" {% if gender > 0 %} selected {% endif %}>male</option>
-                        <option value="F" {% if gender == 0 %} selected {% endif %}>female</option>
+                        <option value="M" {% if gender == 0 %} selected {% endif %}>male</option>
+                        <option value="F" {% if gender > 0 %} selected {% endif %}>female</option>
                     </select>
                     <label for="gender-select-to-drink">Gender</label>
                 </div>
@@ -153,21 +153,21 @@
             </div>
             <div class="row">
                 <div class="input-field col s6" id="calcDatePicker">
-                    <input type="text" id="date-input-start" class="datepicker">
+                    <input type="text" id="date-input-start" class="datepicker" value="{{ date_of_first_drink }}">
                     <label for="date-input-start">Date of first drink</label>
                 </div>
                 <div class="input-field col s6" id="calcTimePicker">
-                    <input type="text" id="time-input-start" class="timepicker">
+                    <input type="text" id="time-input-start" class="timepicker" value="{{ time_of_first_drink }}">
                     <label for="time-input-start">Time of first drink</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s6" id="calcDatePicker">
-                    <input type="text" id="date-input-end" class="datepicker">
+                    <input type="text" id="date-input-end" class="datepicker" value="{{ date_of_last_drink }}">
                     <label for="date-input-end">Date of first drink</label>
                 </div>
                 <div class="input-field col s6" id="calcTimePicker">
-                    <input type="text" id="time-input-end" class="timepicker">
+                    <input type="text" id="time-input-end" class="timepicker" value="{{ time_of_last_drink }}">
                     <label for="time-input-end">Time of first drink</label>
                 </div>
             </div>
