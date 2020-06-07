@@ -23,10 +23,23 @@ def render_calculator(request):
         gender = 0
     else:
         gender = 1
-    bac = blood_alcohol_content(gender, drinks, user_data['weight'], 1)
+    rel_drinks = get_relevant_drinks(gender, user_data['weight'], drinks)
+    if len(rel_drinks) > 0:
+        start_date = datetime.datetime.strptime(rel_drinks[0].date, "%d-%m-%Y %H:%M")
+        time = datetime.datetime.now() - start_date
+        hours = time.total_seconds()/360
+    else:
+        hours = 0
+        
+    bac = blood_alcohol_content(gender, rel_drinks, user_data['weight'], hours)
+    get_sober_date(gender, bac)
     now = datetime.datetime.now() + datetime.timedelta(hours=2)
     then = now + datetime.timedelta(hours=8)
     mai = max_alcohol_intake(gender, then, now, bac)
+    if mai < 0:
+        mai_send = "Impossible to sober up"
+    else:
+        mai_send = "{:.3f}".format(mai)
     bmi = get_bmi(user_data['weight'], user_data['height'])
     data = {
         'bac':  "{:.3f}".format(bac),
@@ -35,12 +48,12 @@ def render_calculator(request):
         'time_of_first_drink': "{h:02d}:{m:02d}".format(h=now.time().hour, m=now.time().minute),
         'time_of_last_drink': "{h:02d}:{m:02d}".format(h=then.time().hour, m=then.time().minute),
         'sobering_time': sobering_time_projection(15, gender, bac).popitem()[0],
-        'max_alcohol_intake': "{:.3f}".format(mai),
+        'max_alcohol_intake': mai_send,
         'translate_bac': translate_bac(gender, user_data['weight'], mai, classic_alcohols),
         'gender': gender,
         'weight': user_data['weight'],
         'height': user_data['height'],
-        'drinks': drinks,
+        'drinks': rel_drinks,
         'bmi': bmi,
         'bmi_short': "{:.2f}".format(bmi)
     }
@@ -55,7 +68,7 @@ def get_logs(user):
 def get_drinks(logs):
     drinks = []
     for key in logs:
-        drinks.append(Alcohol(logs[key]['name'], logs[key]['volume'], logs[key]['percentage']))
+        drinks.append(Alcohol(logs[key]['name'], logs[key]['volume'], logs[key]['percentage'], logs[key]['date']))
     return drinks
 
 
