@@ -4,6 +4,7 @@ from requests.exceptions import HTTPError
 from .settings import config
 import plotly.graph_objects as pgo
 from datetime import datetime, timedelta
+import dateutil.parser
 
 firebase = pyrebase.initialize_app(config)
 auth = firebase.auth()
@@ -50,12 +51,17 @@ def render_chart(request):
         .val()
     global_chart_data = get_global_consumption_data(users)
     user_chart_data = get_user_consumption_stats(user_id, users)
+    friends_chart_data = get_friends_consumption_stats(user_id, users)
+
     g_x, g_y = list(global_chart_data.keys()), list(global_chart_data.values())
     u_x, u_y = list(user_chart_data.keys()), list(user_chart_data.values())
+    f_x, f_y = list(friends_chart_data.keys()), list(friends_chart_data.values())
+
     figure = pgo.Figure(
             data=[
                 pgo.Bar(x=g_x, y=g_y, name="Global"),
-                pgo.Bar(x=u_x, y=u_y, name="Current user")
+                pgo.Bar(x=u_x, y=u_y, name="Current user"),
+                pgo.Bar(x=f_x, y=f_y, name="Friends")
             ]
         )
     figure.update_layout(
@@ -78,27 +84,36 @@ def get_global_consumption_data(users_data):
         for user in list(users_data.values()) if 'logs' in user.keys()
     ]
     for log_set in users_logs:
-        for log in log_set:
-            conv_date = datetime.strptime(log['date'], "%Y-%m-%d %H:%M:%S")
-            chart_data[conv_date.date()] += log['volume'] * log['percentage']
+        summarize_alcohol_consumption(log_set, chart_data)
     return chart_data
 
 def get_user_consumption_stats(user_id, users_data):
     chart_data = generate_chart_data_object()
     if user_id in users_data.keys():
         user_stats = users_data[user_id]
-    else:
-        return chart_data
-    if 'logs' in user_stats.keys():
-        user_logs = list(user_stats['logs'].values())
-    else:
-        return chart_data
+        if 'logs' in user_stats.keys():
+            log_set = list(user_stats['logs'].values())
+            summarize_alcohol_consumption(log_set, chart_data)
+    return chart_data
 
-    for log in user_logs:
-        conv_date = datetime.strptime(log['date'], "%Y-%m-%d %H:%M:%S")
+def get_friends_consumption_stats(user_id, users_data):
+    chart_data = generate_chart_data_object()
+    friends = get_friends(user_id, users_data)
+    friends_logs = get_friends_logs(friends, users_data)
+    for log_set in friends_logs:
+        summarize_alcohol_consumption(log_set, chart_data)
+    return chart_data
+
+def summarize_alcohol_consumption(log_set, chart_data):
+    for log in log_set:
+        conv_date = datetime.strptime(log['date'], "%d-%m-%Y %H:%M")
         chart_data[conv_date.date()] += log['volume'] * log['percentage']
 
-    return chart_data
+def get_friends(user_id, users_data):
+    return list(users_data[user_id]['friends'].keys()) if 'friends' in users_data[user_id].keys() else []
+
+def get_friends_logs(friends_ids, users_data):
+    return [list(users_data[friend_id]['logs'].values()) for friend_id in friends_ids]
 
 def get_users_data():
     return database.child('users') \
