@@ -15,7 +15,8 @@
         <button class="btn">Add Friend</button>
     </div>
     <br/><br/>
-    <div class="square">
+    <div id='graph-container' class="square">
+        {{ chart|safe }}
     <!-- {{logs}} W sumie walic te logi na ten moment. Zamiast tego zrób po prostu jakiegoś prostokątnego diva
         do którego będziemy mogli wrzucic sobie wykres (może byc kafelek podobny do tych z main-panela, ale w sumie
         jak ci wygodniej to i tak bez dużego znaczenia. Generalnie staraj się stylowo to przypasowac jakos do tego
