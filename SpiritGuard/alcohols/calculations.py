@@ -100,16 +100,32 @@ def translate_bac(gender, weight, bac, alcohols):
 
     return amounts
 
+
+"""
+Metoda do obliczania Body Mass Index
+
+@var weight - waga osoby (kg)
+@var height - wzrost osoby (cm)
+"""
+def get_bmi(weight, height):
+    return weight/(pow(height/100, 2))
+
+
+"""
+Czy opis jest tu w ogóle potrzebny?
+;-)
+"""
+def interprete_bmi(bmi):
+    if bmi < 18.5:
+        return "underweight"
+    elif bmi < 25:
+        return "normal"
+    else:
+        return "overweight"
+
+
 classic_alcohols = [
     Alcohol("beer", 500, 0.05),
     Alcohol("wine", 500, 0.116),
     Alcohol("vodka", 50, 0.4)
 ]
-
-weight = 70
-g = 0
-b = blood_alcohol_content(g, classic_alcohols, weight, 0)
-sob = sobering_time_projection(15, g, b)
-mai = max_alcohol_intake(g, datetime.datetime.now() + datetime.timedelta(hours=12))
-tbac = translate_bac(g, weight, mai, classic_alcohols)
-print("done")

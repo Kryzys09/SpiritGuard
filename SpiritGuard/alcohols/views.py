@@ -22,6 +22,7 @@ def render_calculator(request):
         gender = 0
     bac = blood_alcohol_content(gender, drinks, user_data['weight'], 1)
     mai = max_alcohol_intake(gender, datetime.datetime.now() + datetime.timedelta(hours=8), datetime.datetime.now(), bac)
+    bmi = get_bmi(user_data['weight'], user_data['height'])
     data = {
         'bac':  "{:.3f}".format(bac),
         'sobering_time': sobering_time_projection(15, gender, bac).popitem()[0],
@@ -29,7 +30,10 @@ def render_calculator(request):
         'translate_bac': translate_bac(gender, user_data['weight'], mai, classic_alcohols),
         'gender': gender,
         'weight': user_data['weight'],
-        'drinks': drinks
+        'height': user_data['height'],
+        'drinks': drinks,
+        'bmi': bmi,
+        'bmi_short': "{:.2f}".format(bmi)
     }
     return render(request, 'calculator.html', data)
 

@@ -135,3 +135,14 @@ article{
 #calcDatePicker .datepicker-day-button {
     color: black;
 }
+
+#calcTimePicker .timepicker-container {
+    position: unset;
+}
+
+.my-flex{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

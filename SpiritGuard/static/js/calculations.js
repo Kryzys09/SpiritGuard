@@ -115,6 +115,11 @@ function getMaxBAC(){
     let endTs = endTime.split(":");
     let end = new Date(endDs[2], parseInt(endDs[1])-1, endDs[0], endTs[0], endTs[1]);
 
+    if(Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())){
+        alert('Incorrect Dates!')
+        return
+    }
+
     let mai = calculateMaxAlcoholIntake(gender, end, start, startBAC, endBAC);
 
     document.getElementById('max-alcohol-intake').innerText = mai.toFixed(3);
@@ -127,6 +132,29 @@ function getMaxBAC(){
 
     console.log("MAI: ", mai)
     console.log("DRINKS: ", drinks)
+}
+
+function getBMI(){
+    let weight = parseFloat(document.getElementById("weight-input-to-bmi").value);
+    let height = parseFloat(document.getElementById("height-input-to-bmi").value)
+
+    if(Number.isNaN(weight) || Number.isNaN(height)) {
+        alert("Incorrect width or height")
+        return
+    }
+
+    let bmi = calculateBMI(weight, height)
+
+    document.getElementById('bmi').innerText = bmi.toFixed(2)
+
+    let interpret = document.getElementById('bmi-interpret')
+    if(bmi < 19.5){
+        interpret.innerText = "You're underweight"
+    }else if(bmi < 25){
+        interpret.innerText = "Your weight is standard"
+    }else{
+        interpret.innerText = "You're overweight"
+    }
 }
 
 function dateDiffInHours(a, b) {
@@ -211,6 +239,17 @@ function calculateWhichAlcohols(gender, weight, bac, alcohols){
         amounts[alcohols[i].name] = Math.floor(grams/(alcohols[i].percentage * MIL_TO_GRAM));
     }
     return amounts
+}
+
+/**
+ * Metoda do obliczania współczynnika BMI
+ *
+ * @param weight - waga osoby (kg)
+ * @param height - wzrost osoby (cm)
+ * @returns {number} - indywidualny współczynnik bmi
+ */
+function calculateBMI(weight, height){
+    return weight/Math.pow(height/100, 2)
 }
 
 let classicAlcohols = [

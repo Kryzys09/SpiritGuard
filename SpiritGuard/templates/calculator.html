@@ -26,14 +26,16 @@
                     <div class="main-page-text"> Go Back </div>
                 </article>
             </a>
-            <article class="main-panel-tile">
-                {% if gender > 0 %}
-                    <i class="fa icon-large fa-male"></i>
-                {% else %}
-                    <i class="fa icon-large fa-female"></i>
-                {% endif %}
-                <div class="main-page-text"> Body Mass Index </div>
-            </article>
+            <a href="#modal-bmi" class="main-panel-tile modal-trigger">
+                <article>
+                    {% if gender > 0 %}
+                        <i class="fa icon-large fa-male"></i>
+                    {% else %}
+                        <i class="fa icon-large fa-female"></i>
+                    {% endif %}
+                    <div class="main-page-text"> Body Mass Index </div>
+                </article>
+            </a>
         </section>
 
 
@@ -131,11 +133,12 @@
             <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
         </div>
     </div>
+
     <div id="modal-drink" class="modal classic-modal modal-fixed-footer">
         <div class="modal-content">
             <div class="row">
                 <div class="input-field col s12">
-                    <select id="gender-select-to-drink" name="gender" required>
+                    <select id="gender-select-to-drink" name="gender-to-dink" required>
                         <option value="M" {% if gender > 0 %} selected {% endif %}>male</option>
                         <option value="F" {% if gender == 0 %} selected {% endif %}>female</option>
                     </select>
@@ -144,7 +147,7 @@
             </div>
             <div class="row">
                 <div class="input-field col s12">
-                    <input type="number" id="weight-input-to-drink" name="weight" step="0.1" min="0.1" required value={{weight}}>
+                    <input type="number" id="weight-input-to-drink" name="weight-to-drink" step="0.1" min="0.1" required value={{weight}}>
                     <label for="weight-input-to-drink">Weight [kg]</label>
                 </div>
             </div>
@@ -170,11 +173,11 @@
             </div>
             <div class="row">
                 <div class="input-field col s6">
-                    <input type="number" id="start-bac" name="weight" step="0.01" min="0.0" required value="0.0">
+                    <input type="number" id="start-bac" name="start-bac" step="0.01" min="0.0" required value="0.0">
                     <label for="start-bac">BAC at the start</label>
                 </div>
                 <div class="input-field col s6">
-                    <input type="number" id="end-bac" name="weight" step="0.01" min="0.0" required value="0.0">
+                    <input type="number" id="end-bac" name="end-bac" step="0.01" min="0.0" required value="0.0">
                     <label for="end-bac">BAC at the end</label>
                 </div>
             </div>
@@ -193,6 +196,7 @@
             <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
         </div>
     </div>
+
     <div id="modal-alcohols" class="modal classic-modal modal-fixed-footer">
         <div class="modal-content">
             <table class="table">
@@ -215,6 +219,45 @@
         </div>
         <div class="modal-footer classic-modal-footer">
             <a href="#!" class="modal-close waves-effect waves-green btn-flat right">Close</a>
+        </div>
+    </div>
+
+
+    <div id="modal-bmi" class="modal classic-modal modal-fixed-footer">
+        <div class="modal-content">
+            <div class="row">
+                <div class="input-field col s12">
+                    <input type="number" id="weight-input-to-bmi" name="weight-to-bmi" step="0.1" min="0.1" required value={{weight}}>
+                    <label for="weight-input-to-drink">Weight [kg]</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input type="number" id="height-input-to-bmi" name="weight-to-bmi" step="0.1" min="0.1" required value={{height}}>
+                    <label for="height-input-to-bmi">Height [cm]</label>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer classic-modal-footer my-flex">
+            <button type="button" class="btn" onclick="getBMI()">
+                calculate BMI
+            </button>
+            <div>
+                BMI:
+                <div id="bmi">
+                    {{ bmi_short }}
+                </div>
+            </div>
+            <div id="bmi-interpret">
+                    {% if bmi < 19.5 %}
+                        You're underweight
+                    {% elif bmi < 25 %}
+                        Your weight is standard
+                    {% else %}
+                        You're overweight
+                    {% endif %}
+            </div>
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
         </div>
     </div>
     </main>
