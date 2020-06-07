@@ -9,7 +9,7 @@ auth = firebase.auth()
 database = firebase.database()
 
 def main_page(request):
-    return render(request, "main-panel.html")
+    return render(request, "main-panel.html", {'user_id': request.session['user']['localId']})
 
 
 def log_out(request):

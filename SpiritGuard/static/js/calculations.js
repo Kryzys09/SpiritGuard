@@ -122,7 +122,11 @@ function getMaxBAC(){
 
     let mai = calculateMaxAlcoholIntake(gender, end, start, startBAC, endBAC);
 
-    document.getElementById('max-alcohol-intake').innerText = mai.toFixed(3);
+    if(mai < 0){
+        document.getElementById('max-alcohol-intake').innerText = "Impossible to sober up"
+    }else {
+        document.getElementById('max-alcohol-intake').innerText = mai.toFixed(3);
+    }
 
     let drinks = calculateWhichAlcohols(gender, weight, mai, classicAlcohols);
 
@@ -215,13 +219,12 @@ function calculateSoberingTime(gender, bac, dateTime=new Date()){
  * @return (float) - maksymalne stążenie początkowe, żeby organizm zdążył zejść do stężenia końcowego (promile)
  */
 function calculateMaxAlcoholIntake(gender, finishDate, nowDate=new Date(), startBAC=0.0, endBAC=0.0){
-    startBAC += endBAC;
     let time = dateDiffInHours(nowDate, finishDate);
     if(time < 0){
         alert("End date is before start date!")
         return 0
     }
-    return startBAC + (METABOLISM[gender] * time * 10)
+    return endBAC + (METABOLISM[gender] * time * 10) - startBAC
 }
 
 /**
@@ -239,7 +242,12 @@ function calculateWhichAlcohols(gender, weight, bac, alcohols){
     let amounts = {};
     let grams = (bac * BODY_WATER[gender] * weight)/(1.2 * WATER_IN_BLOOD);
     for(let i=0; i<alcohols.length; i++){
-        amounts[alcohols[i].name] = Math.floor(grams/(alcohols[i].percentage * MIL_TO_GRAM));
+        am = Math.floor(grams/(alcohols[i].percentage * MIL_TO_GRAM));
+        if(am > 0) {
+            amounts[alcohols[i].name] = am
+        }else{
+            amounts[alcohols[i].name] = 0
+        }
     }
     return amounts
 }
