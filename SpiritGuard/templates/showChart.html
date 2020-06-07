@@ -1,4 +1,7 @@
 {% extends 'base.html' %}
+{% block title %}Global statistics{% endblock title %}
 {% block content %}
-    {{ global|safe}}
+    <div id="graph-container">
+        {{ global|safe}}
+    </div>
 {% endblock content %}

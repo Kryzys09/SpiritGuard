@@ -59,9 +59,9 @@ def render_chart(request):
 
     figure = pgo.Figure(
             data=[
-                pgo.Bar(x=g_x, y=g_y, name="Global"),
-                pgo.Bar(x=u_x, y=u_y, name="Current user"),
-                pgo.Bar(x=f_x, y=f_y, name="Friends")
+                pgo.Scatter(x=g_x, y=g_y, name="Global"),
+                pgo.Scatter(x=u_x, y=u_y, name="Current user"),
+                pgo.Scatter(x=f_x, y=f_y, name="Friends")
             ]
         )
     figure.update_layout(
@@ -70,11 +70,15 @@ def render_chart(request):
             'y':0.9,
             'x':0.5,
             'xanchor': 'center',
-            'yanchor': 'top'
-        }
+            'yanchor': 'top',
+        },
+        yaxis = {
+            "title_text": "Alcohol in grams [g]"
+        },
+        height=800
     )
 
-    figure_html = figure.to_html(full_html=False)
+    figure_html = figure.to_html(full_html=False, )
     return render(request, 'showChart.html', { "global": figure_html })
 
 def get_global_consumption_data(users_data):
@@ -107,7 +111,8 @@ def get_friends_consumption_stats(user_id, users_data):
 def summarize_alcohol_consumption(log_set, chart_data):
     for log in log_set:
         conv_date = datetime.strptime(log['date'], "%d-%m-%Y %H:%M")
-        chart_data[conv_date.date()] += log['volume'] * log['percentage']
+        if conv_date.date() <= datetime.today().date():
+            chart_data[conv_date.date()] += log['volume'] * log['percentage']
 
 def get_friends(user_id, users_data):
     return list(users_data[user_id]['friends'].keys()) if 'friends' in users_data[user_id].keys() else []

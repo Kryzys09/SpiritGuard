@@ -135,3 +135,10 @@ article{
 #calcDatePicker .datepicker-day-button {
     color: black;
 }
+
+#graph-container {
+    min-height:600px;
+    border-radius:10px;
+    background-color:#FFF;
+    padding:10px
+}
