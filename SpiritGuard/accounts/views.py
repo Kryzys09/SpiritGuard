@@ -113,8 +113,8 @@ def register_new_user(request):
             "editAccountDetails.html",
             { "error": "Oj nie byczq -1" }
         )
-    # except (HTTPError, KeyError):
-    #     return render(request, "logIn.html", { "error": "Something went wrong"})
+    except (HTTPError, KeyError):
+        return render(request, "logIn.html", { "error": "Something went wrong"})
     
     return redirect("/")
 
@@ -139,3 +139,7 @@ def handle_file(file, user):
     file_name = user['localId'] + '.jpg'
     storage.child('images/' + file_name).put(file)
     return file_name
+
+
+def load_profile(request):
+    return render(request, 'accounts/profile.html')
