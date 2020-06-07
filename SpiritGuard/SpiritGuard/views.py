@@ -11,6 +11,7 @@ auth = firebase.auth()
 database = firebase.database()
 
 def main_page(request):
+    print('USER TEST: ', request.session['user'])
     return render(request, "main-panel.html", {'user_id': request.session['user']['localId']})
 
 
@@ -62,6 +63,7 @@ def post_add_wine(request):
     idtoken = request.session['user']['localId']
     database.child('users').child(idtoken).child('logs').push(data)
     return render(request, "main-panel.html")
+
 def post_add_beer(request):
     now = datetime.datetime.now() + datetime.timedelta(hours=2)
     date = "{d:02d}-{m:02d}-{y:04d}".format(d=now.date().day, m=now.date().month, y=now.date().year)
@@ -157,8 +159,8 @@ def get_friends_consumption_stats(user_id, users_data):
 
 def summarize_alcohol_consumption(log_set, chart_data):
     for log in log_set:
-        conv_date = datetime.strptime(log['date'], "%d-%m-%Y %H:%M")
-        if conv_date.date() <= datetime.today().date():
+        conv_date = datetime.datetime.strptime(log['date'], "%d-%m-%Y %H:%M")
+        if conv_date.date() <= datetime.datetime.today().date():
             chart_data[conv_date.date()] += log['volume'] * log['percentage']
 
 def get_friends(user_id, users_data):
@@ -174,5 +176,5 @@ def get_users_data():
 
 def generate_chart_data_object():
     return {
-        datetime.today().date() - timedelta(days=i): 0 for  i in range(30)
+        datetime.datetime.today().date() - datetime.timedelta(days=i): 0 for  i in range(30)
     }

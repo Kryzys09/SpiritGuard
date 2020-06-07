@@ -87,7 +87,7 @@ def register_new_user(request):
             return render(
                 request,
                 "editAccountDetails.html",
-                { "error": "Za młody jesteś byczq" }
+                { "error": "You're too young" }
             )
         
         if 'user' in request.session.keys():
@@ -115,8 +115,6 @@ def register_new_user(request):
             "editAccountDetails.html",
             { "error": "Oj nie byczq -1" }
         )
-    except (HTTPError, KeyError):
-        return render(request, "logIn.html", { "error": "Something went wrong"})
     
     return redirect("/")
 
@@ -145,21 +143,25 @@ def handle_file(file, user):
 
 def load_friends(request):
     user = request.session['user']
-    dict_friends = db.child('users').child(user['localId']).child('friends').get().val().keys()
-    friends = []
+    dict_friends = db.child('users').child(user['localId']).child('friends').get().val()
+    if dict_friends:
+        dict_friends = dict_friends.val()
+        friends = []
 
-    for friend_id in dict_friends:
-        friend = db.child('users').child(friend_id).get().val()
-        print(friend)
-        if 'logs' in friend:
-            logs = friend['logs']
-        else:
-            logs = []
-        if 'avatar' in friend:
-            avatar = friend['avatar']
-        else:
-            avatar = 'SpiritGuard/static/gfx/avatars/default2.png'
-        friends.append(Friend(friend_id, friend['nickname'], friend['birth_date'], avatar, logs))
+        for friend_id in dict_friends:
+            friend = db.child('users').child(friend_id).get().val()
+            print(friend)
+            if 'logs' in friend:
+                logs = friend['logs']
+            else:
+                logs = []
+            if 'avatar' in friend:
+                avatar = friend['avatar']
+            else:
+                avatar = 'SpiritGuard/static/gfx/avatars/default2.png'
+            friends.append(Friend(friend_id, friend['nickname'], friend['birth_date'], avatar, logs))
+    else:
+        friends = []
 
     data = {
         'friends': friends
@@ -181,9 +183,16 @@ def load_profile(request):
         avatar = 'SpiritGuard/static/gfx/avatars/default2.png'
     user = Friend(local_id, user_db['nickname'], user_db['birth_date'], avatar, logs)
     data = {
+        'local_id': local_id,
         'name': user.name,
         'age': user.age,
         'avatar': user.image,
         'logs': user.logs
     }
     return render(request, 'accounts/profile.html', data)
+
+
+def add_friend(request):
+    new_id = request.GET.get('id')
+    db.child('users').child(request.session['user']['localId']).child('friends').set({new_id: '.'})
+    return redirect('/accounts/profile?id=' + new_id)

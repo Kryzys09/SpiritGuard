@@ -12,5 +12,6 @@ urlpatterns = [
     url(r'^settings/', views.render_edit_account_details),
     url(r'^register_next/', views.register_new_user),
     url(r'^profile', views.load_profile),
-    url(r'^friends/$', views.load_friends)
+    url(r'^friends/$', views.load_friends),
+    url(r'^add_friend', views.add_friend)
 ]
