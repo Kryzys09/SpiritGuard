@@ -96,7 +96,7 @@ def translate_bac(gender, weight, bac, alcohols):
     amounts = {}
     grams = (bac * BODY_WATER[gender] * weight)/(1.2 * WATER_IN_BLOOD)
     for alc in alcohols:
-        amounts[str(alc)] = grams/(alc.percentage * MIL_TO_GRAM)
+        amounts[str(alc)] = int(grams/(alc.percentage * MIL_TO_GRAM))
 
     return amounts
 

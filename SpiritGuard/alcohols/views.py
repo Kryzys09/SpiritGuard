@@ -25,7 +25,7 @@ def render_calculator(request):
     data = {
         'bac':  "{:.3f}".format(bac),
         'sobering_time': sobering_time_projection(15, gender, bac).popitem()[0],
-        'max_alcohol_intake': mai,
+        'max_alcohol_intake': "{:.3f}".format(mai),
         'translate_bac': translate_bac(gender, user_data['weight'], mai, classic_alcohols),
         'gender': gender,
         'weight': user_data['weight'],
