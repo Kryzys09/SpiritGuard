@@ -88,7 +88,7 @@ function getBAC(){
         document.getElementById('bac-score').innerText = bac.toFixed(3)
         let stString = soberingTime.toString().split(" GMT")[0]
         document.getElementById('sober-when').innerText = stString
-    }else{
+    } else {
         alert("incorrect start date provided")
     }
 }

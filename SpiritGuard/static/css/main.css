@@ -111,7 +111,7 @@ article{
 .classic-modal {
     border: 2vw solid white;
     border-radius: 15px;
-    background-color: var(--color4);
+    /* background-color: var(--color4); */
     color: white;
 }
 
@@ -260,9 +260,13 @@ article{
 }
 
 .friend-name{
-    witdh: calc(80% - 100px)
+    width: calc(80% - 100px)
 }
 
 .friend-age{
     width: 20%
+}
+
+.modal-content {
+    color: #000
 }
