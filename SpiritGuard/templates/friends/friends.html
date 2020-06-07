@@ -2,14 +2,9 @@
 {% load static %}
 {% block title %} Friends {% endblock %}
 {% block content %}
-<div class="fp">
-    <div class="hdr-flx">
-        <div class="hdr">
-            <img src="{% static '/gfx/logo.png' %}">
-            <span>Friends panel</span>
-        </div>
-        <hr class="hdr-content-separator">
-    </div>
-    {% include 'friends/friends_list.html' %}
-</div>
+<main style="overflow: hidden" class="friend-list-main">
+        {% for friend in friends %}
+            {% include 'friends/friend.html' %}
+        {% endfor %}
+</main>
 {% endblock %}

@@ -1,7 +1,14 @@
 {% load static %}
-<link href="{% static '/css/friend.css' %}" rel="stylesheet">
-<div class="friend">
-    <div class="friend-name">
-        <span> {{ friend.name }}</span>
+<a href="/accounts/profile/{{ friend.localId }}">
+    <div class="friend-row">
+            <div class="friend-cell friend-avatar-container">
+                <img class="friend-avatar" src="{{ friend.image }}">
+            </div>
+            <div class="friend-cell friend-name">
+                <span> {{ friend.name }}</span>
+            </div>
+            <div class="friend-cell friend-age">
+                <span> {{ friend.age }} years old</span>
+            </div>
     </div>
-</div>
+</a>

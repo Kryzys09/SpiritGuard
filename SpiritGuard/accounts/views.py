@@ -139,7 +139,8 @@ def generate_user_data_object(request_data, birth_date):
 def handle_file(file, user):
     file_name = user['localId'] + '.jpg'
     storage.child('images/' + file_name).put(file)
-    return file_name
+    url = storage.child('images/' + file_name).get_url(user['idToken'])
+    return url
 
 def load_friends(request):
     user = request.session['user']
@@ -153,7 +154,11 @@ def load_friends(request):
             logs = friend['logs']
         else:
             logs = []
-        friends.append(Friend(friend_id, friend['nickname'], friend['birth_date'], logs))
+        if 'avatar' in friend:
+            avatar = friend['avatar']
+        else:
+            avatar = 'SpiritGuard/static/gfx/avatars/default2.png'
+        friends.append(Friend(friend_id, friend['nickname'], friend['birth_date'], avatar, logs))
 
     data = {
         'friends': friends
