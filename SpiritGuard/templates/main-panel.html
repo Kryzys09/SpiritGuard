@@ -4,6 +4,7 @@
 {% block header %}
 {% endblock %}
 {% block content %}
+    {% include 'search-users-panel.html' %}
     <main>
         <section class="panel-row">
             <a href="/accounts/profile?id={{ user_id }}" class="main-panel-tile">
