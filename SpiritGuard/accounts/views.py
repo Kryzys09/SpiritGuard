@@ -1,12 +1,13 @@
-from datetime import datetime, date, timedelta
-from .friends import Friend
+from datetime import datetime, date
+
+import plotly.graph_objects as pgo
 import pyrebase
 from django.shortcuts import render, redirect
 from requests.exceptions import HTTPError
+
 from SpiritGuard.settings import config
-from django.core.files.storage import FileSystemStorage
-import plotly.graph_objects as pgo
 from SpiritGuard.views import get_user_consumption_stats, get_users_data
+from .friends import Friend
 
 firebase = pyrebase.initialize_app(config)
 db = firebase.database()
@@ -55,7 +56,7 @@ def send_register_request(request):
     return render(
         request,
         "editAccountDetails.html",
-        { "email": email, "password": password, "link": '/accounts/pre_login/register_next/'}
+        {"email": email, "password": password, "link": '/accounts/pre_login/register_next/'}
     )
 
 
@@ -79,9 +80,9 @@ def render_edit_account_details(request):
 def register_new_user(request):
     try:
         birth_date = datetime.strptime(
-                request.POST.get("date_of_birth"),
-                "%Y-%m-%d"
-            )
+            request.POST.get("date_of_birth"),
+            "%Y-%m-%d"
+        )
         email = request.POST.get('email')
         password = request.POST.get("password")
 
@@ -89,9 +90,9 @@ def register_new_user(request):
             return render(
                 request,
                 "editAccountDetails.html",
-                { "error": "You're too young" }
+                {"error": "You're too young"}
             )
-        
+
         if 'user' in request.session.keys():
             user = request.session['user']
         else:
@@ -110,14 +111,14 @@ def register_new_user(request):
         db.child('users') \
             .child(user['localId']) \
             .update(data, user['idToken'])
-             
+
     except ValueError:
         return render(
             request,
             "editAccountDetails.html",
-            { "error": "Oj nie byczq -1" }
+            {"error": "Oj nie byczq -1"}
         )
-    
+
     return redirect("/")
 
 
@@ -190,12 +191,12 @@ def load_profile(request):
     chart.update_layout(
         title={
             "text": "Alcohol consumption in last 30 days",
-            'y':0.9,
-            'x':0.5,
+            'y': 0.9,
+            'x': 0.5,
             'xanchor': 'center',
             'yanchor': 'top',
         },
-        yaxis = {
+        yaxis={
             "title_text": "Alcohol in grams [g]"
         }
     )
