@@ -9,15 +9,15 @@
              onerror="this.src='../../../static/gfx/avatars/default2.png';" alt="profile picture">
     </div>
     <br/><br/>
-    {% if is_add_friend_visible %}
+    {% if friend_text == 'Add to friends' %}
         <div class="button-holder">
-            <a class="btn" href="/accounts/add_friend?id={{ local_id }}">Add Friend</a>
+            <a class="btn" href="/accounts/add_friend?id={{ local_id }}">{{ friend_text }}</a>
         </div>
     {% else %}
         <div class="button-holder">
             <a class="btn"> <img src="https://static.xx.fbcdn.net/rsrc.php/v3/yR/r/O1yrWc5aheh.png" height="15"
                                  width="15">
-                Friend already added</a>
+                {{ friend_text }}</a>
         </div>
     {% endif %}
     <br/><br/>

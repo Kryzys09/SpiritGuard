@@ -208,13 +208,21 @@ def load_profile(request):
     friends = get_logged_user_friends(request)
     print("ERROR: ", user_db)
     user = Friend(local_id, nickname, user_db['birth_date'], avatar, logs, friends)
+    afw = ''
+    if local_id == request.session['user']['localId']:
+        afw = 'Your account'
+    elif local_id in user.friends:
+        afw = 'User already added to friends'
+    else:
+        afw = 'Add to friends'
+
     data = {
         'local_id': local_id,
         'name': user.name,
         'age': user.age,
         'avatar': user.image,
         'logs': user.logs,
-        'is_add_friend_visible': local_id not in user.friends,
+        'friend_text': afw,
         'chart': chart.to_html(full_html=False)
     }
     return render(request, 'accounts/profile.html', data)
