@@ -2,29 +2,29 @@ body, html {
     height: 100%;
 }
 
-a{
+a {
     color: black;
     text-decoration: none;
 }
 
-body{
+body {
     background-color: var(--color3);
     color: var(--color0);
 }
-footer{
 
-  position: absolute;
+footer {
 
-  right: 0;
-  bottom: 0px;
-  width: 15%;
-  height: 100%;
+    position: absolute;
 
+    right: 0;
+    bottom: 0px;
+    width: 15%;
+    height: 100%;
 
 
 }
 
-main{
+main {
     border-radius: 15px;
     height: 90%;
     margin: 10px;
@@ -33,11 +33,12 @@ main{
 
 .square {
     border: 3px solid black;
-    border-radius : 15px;
+    border-radius: 15px;
     text-align: center;
     width: 100%;
 }
-.panel-row{
+
+.panel-row {
     width: 100%;
     height: 50%;
     display: flex;
@@ -46,35 +47,40 @@ main{
 .datepicker-container {
     color: black
 }
-.panel-row2{
+
+.panel-row2 {
 
 
 }
-.panel-row3{
+
+.panel-row3 {
     position: absolute;
     left: 30%;
 }
-.panel-row4{
+
+.panel-row4 {
     color: black;
-    margin-left:35%;
-    margin-right:0;
+    margin-left: 35%;
+    margin-right: 0;
 
 }
+
 .panel-row5 {
     margin-top: -50px;
 }
-.log-out-icon{
+
+.log-out-icon {
     width: 3%;
 
-    margin-left:15px;
-    margin-top:5px;
+    margin-left: 15px;
+    margin-top: 5px;
     border-radius: 100px;
     background: #ec9d00;
 
 
 }
 
-article{
+article {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -82,20 +88,22 @@ article{
     height: 100%;
 }
 
-.main-page-text{
+.main-page-text {
     font-size: 3vw;
 }
 
-.icon-large{
+.icon-large {
     font-size: 13vw;
 }
-.icon-medium{
+
+.icon-medium {
     font-size: 8vw;
 }
-.icon-2vw{
-   font-size: 2vw;
-   color: white;
-    margin-left:8px;
+
+.icon-2vw {
+    font-size: 2vw;
+    color: white;
+    margin-left: 8px;
 }
 
 .main-panel-tile {
@@ -114,11 +122,11 @@ article{
     color: white;
 }
 
-.btn{
+.btn {
     border: 1px solid white;
     border-radius: 15px;
     background-color: var(--color4);
-    color: white;  
+    color: white;
 }
 
 .classic-modal-footer {
@@ -130,29 +138,29 @@ article{
     transform: scale(1.05);
 }
 
-.panel-row:first-child{
+.panel-row:first-child {
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
 }
 
-.panel-row:last-child{
+.panel-row:last-child {
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
 }
 
-.panel-row:first-child > .main-panel-tile:first-child{
+.panel-row:first-child > .main-panel-tile:first-child {
     border-top-left-radius: 15px;
 }
 
-.panel-row:first-child > .main-panel-tile:last-child{
+.panel-row:first-child > .main-panel-tile:last-child {
     border-top-right-radius: 15px;
 }
 
-.panel-row:last-child > .main-panel-tile:first-child{
+.panel-row:last-child > .main-panel-tile:first-child {
     border-bottom-left-radius: 15px;
 }
 
-.panel-row:last-child > .main-panel-tile:last-child{
+.panel-row:last-child > .main-panel-tile:last-child {
     border-bottom-right-radius: 15px;
 }
 
@@ -217,7 +225,7 @@ article{
     border-radius: 10px;
 }
 
-.friend-list-main{
+.friend-list-main {
     display: flex;
     flex-direction: column;
     align-items: stretch;
@@ -228,7 +236,7 @@ article{
     background-color: var(--color5);
 }
 
-.friend-row{
+.friend-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -237,11 +245,11 @@ article{
     border-bottom-left-radius: 50px;
 }
 
-.friend-row:hover{
+.friend-row:hover {
     background-color: var(--color4);
 }
 
-.friend-avatar-container{
+.friend-avatar-container {
     width: 100px;
     height: 100px;
     padding: 0px;
@@ -252,17 +260,17 @@ article{
     border-radius: 50px;
 }
 
-.friend-avatar{
+.friend-avatar {
     background-size: cover;
-    width:100%;
-    height:100%;
+    width: 100%;
+    height: 100%;
 }
 
-.friend-name{
+.friend-name {
     width: calc(80% - 100px)
 }
 
-.friend-age{
+.friend-age {
     width: 20%
 }
 
@@ -277,17 +285,28 @@ article{
     padding: 10px
 }
 
-.profile-photo{
+.profile-photo {
     width: 15vw;
     height: 20vw;
 }
+
 .round {
     border-radius: 15px;
 }
+
 .list-divider:last-of-type {
     display: none;
 }
 
 .user-list-row {
-    margin:20px
+    margin: 20px
+}
+
+#nouserinfo {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--color6) !important;
+    font-size: 150%;
 }
