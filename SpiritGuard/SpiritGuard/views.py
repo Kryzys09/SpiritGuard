@@ -11,6 +11,7 @@ firebase = pyrebase.initialize_app(config)
 auth = firebase.auth()
 database = firebase.database()
 
+
 def main_page(request):
     print('USER TEST: ', request.session['user'])
     return render(request, "main-panel.html", {'user_id': request.session['user']['localId']})
@@ -40,8 +41,8 @@ def post_create(request):
     percentage = request.POST.get('percentage-input')
     date = request.POST.get('date-input')
     time = request.POST.get('time-input')
-    data={
-        'name':name,
+    data = {
+        'name': name,
         'volume': int(volume),
         'percentage': float(percentage),
         'date': date + ' ' + time
@@ -50,6 +51,7 @@ def post_create(request):
     database.child('users').child(idtoken).child('logs').push(data)
 
     return render(request, "addAlcohol.html")
+
 
 def post_add_wine(request):
     now = datetime.now() + timedelta(hours=2)
@@ -65,6 +67,7 @@ def post_add_wine(request):
     database.child('users').child(idtoken).child('logs').push(data)
     return render(request, "main-panel.html")
 
+
 def post_add_beer(request):
     now = datetime.now() + timedelta(hours=2)
     date = "{d:02d}-{m:02d}-{y:04d}".format(d=now.date().day, m=now.date().month, y=now.date().year)
@@ -79,8 +82,8 @@ def post_add_beer(request):
     database.child('users').child(idtoken).child('logs').push(data)
     return render(request, "main-panel.html")
 
-def post_add_vodka(request):
 
+def post_add_vodka(request):
     now = datetime.now() + timedelta(hours=2)
     date = "{d:02d}-{m:02d}-{y:04d}".format(d=now.date().day, m=now.date().month, y=now.date().year)
     time = "{h:02d}:{m:02d}".format(h=now.time().hour, m=now.time().minute)
@@ -93,6 +96,7 @@ def post_add_vodka(request):
     idtoken = request.session['user']['localId']
     database.child('users').child(idtoken).child('logs').push(data)
     return render(request, "main-panel.html")
+
 
 def render_chart(request):
     user_id = request.session['user']['localId']
@@ -108,28 +112,29 @@ def render_chart(request):
     f_x, f_y = list(friends_chart_data.keys()), list(friends_chart_data.values())
 
     figure = pgo.Figure(
-            data=[
-                pgo.Scatter(x=g_x, y=g_y, name="Global"),
-                pgo.Scatter(x=u_x, y=u_y, name="Current user"),
-                pgo.Scatter(x=f_x, y=f_y, name="Friends")
-            ]
-        )
+        data=[
+            pgo.Scatter(x=g_x, y=g_y, name="Global"),
+            pgo.Scatter(x=u_x, y=u_y, name="Current user"),
+            pgo.Scatter(x=f_x, y=f_y, name="Friends")
+        ]
+    )
     figure.update_layout(
         title={
             "text": "Alcohol consumption in last 30 days",
-            'y':0.9,
-            'x':0.5,
+            'y': 0.9,
+            'x': 0.5,
             'xanchor': 'center',
             'yanchor': 'top',
         },
-        yaxis = {
+        yaxis={
             "title_text": "Alcohol in grams [g]"
         },
         height=800
     )
 
     figure_html = figure.to_html(full_html=False, )
-    return render(request, 'showChart.html', { "global": figure_html })
+    return render(request, 'showChart.html', {"global": figure_html})
+
 
 def get_global_consumption_data(users_data):
     chart_data = generate_chart_data_object()
@@ -141,6 +146,7 @@ def get_global_consumption_data(users_data):
         summarize_alcohol_consumption(log_set, chart_data)
     return chart_data
 
+
 def get_user_consumption_stats(user_id, users_data):
     chart_data = generate_chart_data_object()
     if user_id in users_data.keys():
@@ -150,6 +156,7 @@ def get_user_consumption_stats(user_id, users_data):
             summarize_alcohol_consumption(log_set, chart_data)
     return chart_data
 
+
 def get_friends_consumption_stats(user_id, users_data):
     chart_data = generate_chart_data_object()
     friends = get_friends(user_id, users_data)
@@ -158,24 +165,29 @@ def get_friends_consumption_stats(user_id, users_data):
         summarize_alcohol_consumption(log_set, chart_data)
     return chart_data
 
+
 def summarize_alcohol_consumption(log_set, chart_data):
     for log in log_set:
         conv_date = datetime.strptime(log['date'], "%d-%m-%Y %H:%M")
         if conv_date.date() <= datetime.today().date():
             chart_data[conv_date.date()] += log['volume'] * log['percentage']
 
+
 def get_friends(user_id, users_data):
     return list(users_data[user_id]['friends'].keys()) if 'friends' in users_data[user_id].keys() else []
 
+
 def get_friends_logs(friends_ids, users_data):
     return [list(users_data[friend_id]['logs'].values()) for friend_id in friends_ids]
+
 
 def get_users_data():
     return database.child('users') \
         .get() \
         .val()
 
+
 def generate_chart_data_object():
     return {
-        datetime.today().date() - timedelta(days=i): 0 for  i in range(30)
+        datetime.today().date() - timedelta(days=i): 0 for i in range(30)
     }
