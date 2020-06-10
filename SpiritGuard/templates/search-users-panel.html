@@ -23,6 +23,7 @@
 
         function executeSearch(isValFromInputField) {
             return function () {
+                $('#queryInput').val('');
                 const nickname = isValFromInputField ? (this).val() : '';
                 $.ajax({
                     url: '/ajax/users/',
@@ -62,10 +63,9 @@
             for (let user of usersCopy) {
                 const avatar = getValidAvatar(user);
                 const nickname = getValidNickname(user);
-                console.log(user);
-                const userPageLocation = 3;
+                const userPageLocation = `http://localhost:8000/accounts/profile?id=${user.id}`;
                 const elem = $(createListElem(avatar, nickname));
-                elem.mousedown((e)=> document.location = 'www.google.com');
+                elem.mousedown((e)=> document.location = userPageLocation);
                 elem.appendTo(lofWrapper);
             }
 
