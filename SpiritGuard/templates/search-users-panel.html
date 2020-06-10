@@ -23,7 +23,6 @@
 
         function executeSearch(isValFromInputField) {
             return function () {
-                $('#lof-wrapper').show();
                 const nickname = isValFromInputField ? (this).val() : '';
                 $.ajax({
                     url: '/ajax/users/',
@@ -32,6 +31,7 @@
                     },
                     dataType: 'json',
                     success: function (data) {
+                        $('#lof-wrapper').show();
                         users = data.users;
                         drawUsersList();
                     }
@@ -55,30 +55,37 @@
             return containedNickname.length < 18 ? containedNickname : containedNickname.substring(0, 15) + '...';
         }
 
-        function drawUsersList() {
+        function drawUsersList(listToDraw = users) {
             const lofWrapper = $('#lof-wrapper');
             lofWrapper.empty();
-            const usersCopy = users;
-
+            const usersCopy = listToDraw;
             for (let user of usersCopy) {
                 const avatar = getValidAvatar(user);
                 const nickname = getValidNickname(user);
-                $(createListElem(avatar, nickname)).appendTo(lofWrapper);
+                console.log(user);
+                const userPageLocation = 3;
+                const elem = $(createListElem(avatar, nickname));
+                elem.mousedown((e)=> document.location = 'www.google.com');
+                elem.appendTo(lofWrapper);
             }
+
+            if (usersCopy.length === 0) {
+
+            }
+        }
+
+        function filterUsersList(filterString) {
+            const filteredList = users.filter((val) => val.nickname !== undefined &&
+                val.nickname.toLowerCase().includes(filterString.toLowerCase()));
+            drawUsersList(filteredList);
         }
 
         function hideList() {
             $('#lof-wrapper').hide();
         }
 
-        function onListElemClicked() {
-            event.stopPropagation();
-            event.stopImmediatePropagation();
-            document.location = 'http://www.google.com';
-        }
-
         $('#queryInput').click(executeSearch(false));
-        $('#queryInput').on('input', drawUsersList);
+        $('#queryInput').on('input', (e) => filterUsersList(e.target.value));
         $('.list-elem').mousedown(function (event) {
             onListElemClicked();
         });
