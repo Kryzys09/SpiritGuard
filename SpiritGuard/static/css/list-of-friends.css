@@ -26,6 +26,9 @@
     justify-content: space-around;
     margin: 2px;
     background-color: gold;
+    color: black;
+    font-size: 200%;
+    cursor: pointer;
 }
 
 .list-elem:hover {

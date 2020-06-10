@@ -14,23 +14,27 @@
     <div id="list-of-friends" class="center-content row">
         <div id="lof-wrapper">
             <div class="center-content row list-elem">
-                                <img src={% static '/gfx/avatars/default2.png' %}>
+                <img src={% static '/gfx/avatars/default2.png' %}>
                 Jacek
             </div>
             <div class="center-content row list-elem">
-                                <img src={% static '/gfx/avatars/default2.png' %}>
+                <img src={% static '/gfx/avatars/default2.png' %}>
                 Jacek
-            </div>            <div class="center-content row list-elem">
-                                <img src={% static '/gfx/avatars/default2.png' %}>
+            </div>
+            <div class="center-content row list-elem">
+                <img src={% static '/gfx/avatars/default2.png' %}>
                 Jacek
-            </div>            <div class="center-content row list-elem">
-                                <img src={% static '/gfx/avatars/default2.png' %}>
+            </div>
+            <div class="center-content row list-elem">
+                <img src={% static '/gfx/avatars/default2.png' %}>
                 Jacek
-            </div>            <div class="center-content row list-elem">
-                                <img src={% static '/gfx/avatars/default2.png' %}>
+            </div>
+            <div class="center-content row list-elem">
+                <img src={% static '/gfx/avatars/default2.png' %}>
                 Jacek
-            </div>            <div class="center-content row list-elem">
-                                <img src={% static '/gfx/avatars/default2.png' %}>
+            </div>
+            <div class="center-content row list-elem">
+                <img src={% static '/gfx/avatars/default2.png' %}>
                 Jacek
             </div>
         </div>
@@ -68,8 +72,18 @@
             $('#lof-wrapper').hide();
         }
 
+        function onListElemClicked() {
+            console.log('worken');
+            event.stopPropagation();
+            event.stopImmediatePropagation();
+            document.location = 'http://www.google.com';
+        }
+
         $('#queryInput').click(executeSearch(false));
         $('#queryInput').on('input', drawUsersList);
+        $('.list-elem').mousedown(function (event) {
+            onListElemClicked();
+        });
         $('#queryInput').blur(hideList);
     </script>
 {% endblock %}
