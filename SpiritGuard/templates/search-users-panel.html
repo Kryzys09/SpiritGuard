@@ -44,7 +44,9 @@
         const createListElem = (imgSrc, nickname) => `<div class="center-content row list-elem">
                 <img src=${imgSrc}>
                 ${nickname}
-            </div>`;
+            </div>
+<div class="list-elem-separator"/>
+`;
 
         function getValidAvatar(user) {
             let containedAvatar = user.avatar || defaultImgLocation;

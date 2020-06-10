@@ -16,7 +16,29 @@
     box-shadow: 1px 1px 5px black;
     border-color: white;
     width: 50%;
-    background-color: black;
+    background-color: gold;
+}
+
+.lof-wrapper::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    background-color: #030406;
+    border-radius: 10px;
+}
+
+.lof-wrapper::-webkit-scrollbar {
+    width: 10px;
+    border-radius: 10px;
+    background-color: #030406;
+}
+
+.lof-wrapper::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-image: -webkit-gradient(linear,
+    left bottom,
+    left top,
+    color-stop(0.44, rgb(137, 137, 227)),
+    color-stop(0.72, rgb(94, 94, 177)),
+    color-stop(0.86, rgb(57, 57, 119)));
 }
 
 .list-elem {
@@ -31,6 +53,7 @@
     cursor: pointer;
 }
 
+
 .list-elem:hover {
     background-color: #ffab2f;
 }
@@ -44,4 +67,10 @@
     border-width: 1px;
     border-color: black;
     box-shadow: 1px 1px 2px black;
+}
+
+.list-elem-separator {
+    border: 1px solid black;
+    box-shadow: 1px 0 1px black;
+    border-radius: 2px;
 }
