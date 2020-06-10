@@ -1,11 +1,97 @@
 {% load static %}
+<script src="{% static '/js/jquery.min.js' %}"></script>
+<link href="{% static '/css/list-of-friends.css' %}" rel="stylesheet">
+
 <form id="search-form" method="post" action='/accounts/search_users/'>
     {% csrf_token %}
     <div class="center-content row">
         <div class="input-field col s6" style="margin:auto">
-            <i class="fa fa-search prefix"></i>
+            <i class="fa fa-search prefix" style="color: white"></i>
             <input id="queryInput" type="text" name="queryInput">
-            <label for="queryInput">Search users...</label>
+            <label style="color: white" for="queryInput">Search users...</label>
+        </div>
+    </div>
+    <div id="list-of-friends" class="center-content row">
+        <div id="lof-wrapper">
         </div>
     </div>
 </form>
+
+{% block javascript %}
+    <script>
+        let users = [];
+
+        function executeSearch(isValFromInputField) {
+            return function () {
+                $('#queryInput').val('');
+                const nickname = isValFromInputField ? (this).val() : '';
+                $.ajax({
+                    url: '/ajax/users/',
+                    data: {
+                        'nickname': nickname
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#lof-wrapper').show();
+                        users = data.users;
+                        drawUsersList();
+                    }
+                });
+            };
+        }
+
+        const defaultImgLocation = '/static/gfx/avatars/default2.png';
+        const createListElem = (imgSrc, nickname) => `<div class="center-content row list-elem">
+                <img src=${imgSrc}>
+                ${nickname}
+            </div>
+<div class="list-elem-separator"/>
+`;
+
+        function getValidAvatar(user) {
+            let containedAvatar = user.avatar || defaultImgLocation;
+            return containedAvatar.startsWith('https://firebasestorage') ? containedAvatar : defaultImgLocation;
+        }
+
+        function getValidNickname(user) {
+            let containedNickname = user.nickname || defaultImgLocation;
+            return containedNickname.length < 18 ? containedNickname : containedNickname.substring(0, 15) + '...';
+        }
+
+        function drawUsersList(listToDraw = users) {
+            const lofWrapper = $('#lof-wrapper');
+            lofWrapper.empty();
+            const usersCopy = listToDraw;
+            for (let user of usersCopy) {
+                const avatar = getValidAvatar(user);
+                const nickname = getValidNickname(user);
+                const userPageLocation = `http://localhost:8000/accounts/profile?id=${user.id}`;
+                const elem = $(createListElem(avatar, nickname));
+                elem.mousedown((e)=> document.location = userPageLocation);
+                elem.appendTo(lofWrapper);
+            }
+
+            if (usersCopy.length === 0) {
+
+            }
+        }
+
+        function filterUsersList(filterString) {
+            const filteredList = users.filter((val) => val.nickname !== undefined &&
+                val.nickname.toLowerCase().includes(filterString.toLowerCase()));
+            drawUsersList(filteredList);
+        }
+
+        function hideList() {
+            $('#lof-wrapper').hide();
+        }
+
+        $('#queryInput').click(executeSearch(false));
+        $('#queryInput').on('input', (e) => filterUsersList(e.target.value));
+        $('.list-elem').mousedown(function (event) {
+            onListElemClicked();
+        });
+        $('#queryInput').blur(hideList);
+    </script>
+{% endblock %}
+

@@ -3,8 +3,20 @@
 {% block title %} Friends {% endblock %}
 {% block content %}
     <main style="overflow: hidden" class="friend-list-main">
+        {% if friends|length != 0 %}
             {% for friend in friends %}
                 {% include 'friends/friend.html' %}
             {% endfor %}
+        {% else %}
+            <div class="row">
+                <div class="col s12 m5">
+                    <div id="nouserinfo" class="card-panel teal">
+        <span class="white-text">
+            No users with this username found. Keep trying!
+        </span>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
     </main>
 {% endblock %}
