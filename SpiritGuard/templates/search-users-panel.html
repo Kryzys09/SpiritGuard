@@ -13,30 +13,6 @@
     </div>
     <div id="list-of-friends" class="center-content row">
         <div id="lof-wrapper">
-            <div class="center-content row list-elem">
-                <img src={% static '/gfx/avatars/default2.png' %}>
-                Jacek
-            </div>
-            <div class="center-content row list-elem">
-                <img src={% static '/gfx/avatars/default2.png' %}>
-                Jacek
-            </div>
-            <div class="center-content row list-elem">
-                <img src={% static '/gfx/avatars/default2.png' %}>
-                Jacek
-            </div>
-            <div class="center-content row list-elem">
-                <img src={% static '/gfx/avatars/default2.png' %}>
-                Jacek
-            </div>
-            <div class="center-content row list-elem">
-                <img src={% static '/gfx/avatars/default2.png' %}>
-                Jacek
-            </div>
-            <div class="center-content row list-elem">
-                <img src={% static '/gfx/avatars/default2.png' %}>
-                Jacek
-            </div>
         </div>
     </div>
 </form>
@@ -63,9 +39,32 @@
             };
         }
 
+        const defaultImgLocation = '/static/gfx/avatars/default2.png';
+        const createListElem = (imgSrc, nickname) => `<div class="center-content row list-elem">
+                <img src=${imgSrc}>
+                ${nickname}
+            </div>`;
+
+        function getValidAvatar(user) {
+            let containedAvatar = user.avatar || defaultImgLocation;
+            return containedAvatar.startsWith('https://firebasestorage') ? containedAvatar : defaultImgLocation;
+        }
+
+        function getValidNickname(user) {
+            let containedNickname = user.nickname || defaultImgLocation;
+            return containedNickname.length < 18 ? containedNickname : containedNickname.substring(0, 15) + '...';
+        }
+
         function drawUsersList() {
+            const lofWrapper = $('#lof-wrapper');
+            lofWrapper.empty();
             const usersCopy = users;
-            console.log(usersCopy)
+
+            for (let user of usersCopy) {
+                const avatar = getValidAvatar(user);
+                const nickname = getValidNickname(user);
+                $(createListElem(avatar, nickname)).appendTo(lofWrapper);
+            }
         }
 
         function hideList() {
@@ -73,7 +72,6 @@
         }
 
         function onListElemClicked() {
-            console.log('worken');
             event.stopPropagation();
             event.stopImmediatePropagation();
             document.location = 'http://www.google.com';
