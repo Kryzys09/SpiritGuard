@@ -1,0 +1,12 @@
+#list-of-friends {
+    position: relative;
+    z-index: 100;
+}
+
+#lof-wrapper {
+    position: absolute;
+    top: 10%;
+    border-style: dotted;
+    border-color: red;
+    width: 50%;
+}

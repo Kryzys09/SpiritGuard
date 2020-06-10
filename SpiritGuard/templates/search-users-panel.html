@@ -1,6 +1,6 @@
 {% load static %}
 <script src="{% static '/js/jquery.min.js' %}"></script>
-<link href="{% static '/css/materialize.min.css' %}" rel="stylesheet">
+<link href="{% static '/css/list-of-friends.css' %}" rel="stylesheet">
 
 <form id="search-form" method="post" action='/accounts/search_users/'>
     {% csrf_token %}
@@ -12,7 +12,18 @@
         </div>
     </div>
     <div id="list-of-friends" class="center-content row">
-        lol
+        <div id="lof-wrapper">
+            <div class="center-content row" style="background-color: gold">NICK1
+                <img src={% static '/gfx/logo.png' %}>
+            </div>
+            <div class="center-content row" style="background-color: gold">NICK2
+
+            </div>
+            <div class="center-content row" style="background-color: gold">asdasd as ads</div>
+            <div class="center-content row" style="background-color: gold">123123123 123</div>
+            <div class="center-content row" style="background-color: gold">asXDASdads</div>
+            <div class="center-content row" style="background-color: gold">zxx</div>
+        </div>
     </div>
 </form>
 
@@ -22,7 +33,7 @@
 
         function executeSearch(isValFromInputField) {
             return function () {
-                console.log('hello');
+                $('#lof-wrapper').show();
                 const nickname = isValFromInputField ? (this).val() : '';
                 $.ajax({
                     url: '/ajax/users/',
@@ -43,8 +54,13 @@
             console.log(usersCopy)
         }
 
+        function hideList() {
+            $('#lof-wrapper').hide();
+        }
+
         $('#queryInput').click(executeSearch(false));
-        $('#queryInput').on('input', drawUsersList)
+        $('#queryInput').on('input', drawUsersList);
+        $('#queryInput').blur(hideList);
     </script>
 {% endblock %}
 
