@@ -1,4 +1,5 @@
 from django.conf.urls import url
+
 from . import views
 
 app_name = 'accounts'
@@ -14,5 +15,5 @@ urlpatterns = [
     url(r'^profile', views.load_profile),
     url(r'^friends/$', views.load_friends),
     url(r'^add_friend', views.add_friend),
-    url(r'^search_users/', views.get_users_list)
+    url(r'^search_users/', views.get_users_list),
 ]

@@ -2,6 +2,7 @@ from datetime import datetime, date
 
 import plotly.graph_objects as pgo
 import pyrebase
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from requests.exceptions import HTTPError
 

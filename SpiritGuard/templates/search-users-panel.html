@@ -1,4 +1,7 @@
 {% load static %}
+<script src="{% static '/js/jquery.min.js' %}"></script>
+<link href="{% static '/css/materialize.min.css' %}" rel="stylesheet">
+
 <form id="search-form" method="post" action='/accounts/search_users/'>
     {% csrf_token %}
     <div class="center-content row">
@@ -8,4 +11,40 @@
             <label style="color: white" for="queryInput">Search users...</label>
         </div>
     </div>
+    <div id="list-of-friends" class="center-content row">
+        lol
+    </div>
 </form>
+
+{% block javascript %}
+    <script>
+        let users = [];
+
+        function executeSearch(isValFromInputField) {
+            return function () {
+                console.log('hello');
+                const nickname = isValFromInputField ? (this).val() : '';
+                $.ajax({
+                    url: '/ajax/users/',
+                    data: {
+                        'nickname': nickname
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        users = data.users;
+                        drawUsersList();
+                    }
+                });
+            };
+        }
+
+        function drawUsersList() {
+            const usersCopy = users;
+            console.log(usersCopy)
+        }
+
+        $('#queryInput').click(executeSearch(false));
+        $('#queryInput').on('input', drawUsersList)
+    </script>
+{% endblock %}
+
