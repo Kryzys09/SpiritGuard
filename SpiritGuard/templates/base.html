@@ -18,9 +18,11 @@
 
 <body>
     <header>
+        {% if not main_page_blocked %}
         <div class="log-out-icon">
-            <a href="/" ><i class="far icon-2vw fa fa-sign-out-alt"></i></a>
+            <a href="/" ><i class="far fa fa-sign-out-alt" style="color: var(--color0)!important"></i></a>
         </div>
+        {% endif %}
     </header>
     <div class="container full-height">
         {% block content %}

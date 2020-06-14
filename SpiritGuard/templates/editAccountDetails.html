@@ -5,10 +5,10 @@
 
 
 {% block content %}
-    <link href="{% static '/css/overflow-polyfill.css' %}" rel="stylesheet"> <!-- No way of doing this in base class - had to make a polyfill. Something is fkd up with Jinja imports -->
+    <link href="{% static '/css/overflow-polyfill.css' %}" rel="stylesheet">
     {% csrf_token %}
     <div class="center-content full-height">    
-        <h3>Edit account details</h3>
+        <span class="sub-page-title">Edit account details</span>
         <form action="{{ link }}" method="post" id="edit-account-form" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="row center-content">

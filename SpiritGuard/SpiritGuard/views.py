@@ -14,7 +14,7 @@ database = firebase.database()
 
 def main_page(request):
     print('USER TEST: ', request.session['user'])
-    return render(request, "main-panel.html", {'user_id': request.session['user']['localId']})
+    return render(request, "main-panel.html", {'user_id': request.session['user']['localId'], 'main_page_blocked': True})
 
 
 def log_out(request):
@@ -178,7 +178,10 @@ def get_friends(user_id, users_data):
 
 
 def get_friends_logs(friends_ids, users_data):
-    return [list(users_data[friend_id]['logs'].values()) for friend_id in friends_ids]
+    try:
+        return [list(users_data[friend_id]['logs'].values()) for friend_id in friends_ids]
+    except KeyError:
+        return []
 
 
 def get_users_data():

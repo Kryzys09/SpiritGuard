@@ -2,7 +2,7 @@
 {% load static %}
 {% block title %} Friends {% endblock %}
 {% block content %}
-    <main style="overflow: hidden" class="friend-list-main">
+    <main style="overflow: hidden" class="friend-list-main main-panel-sub-menu">
         {% if friends|length != 0 %}
             {% for friend in friends %}
                 {% include 'friends/friend.html' %}
@@ -12,7 +12,7 @@
                 <div class="col s12 m5">
                     <div id="nouserinfo" class="card-panel teal">
         <span class="white-text">
-            No users with this username found. Keep trying!
+            No users found!
         </span>
                     </div>
                 </div>

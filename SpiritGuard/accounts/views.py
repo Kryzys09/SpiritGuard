@@ -17,7 +17,7 @@ auth = firebase.auth()
 
 
 def render_log_in_page(request):
-    return render(request, "logIn.html")
+    return render(request, "logIn.html", {'main_page_blocked': True})
 
 
 def send_log_in_request(request):
@@ -27,7 +27,7 @@ def send_log_in_request(request):
         user = auth.sign_in_with_email_and_password(email, password)
     except HTTPError as e:
         print('ERROR: ', e)
-        return render(request, "logIn.html", {"error": "Invalid credentials"})
+        return render(request, "logIn.html", {"error": "Invalid credentials", 'main_page_blocked': True})
     request.session['user'] = user
     request.session.set_expiry(900)
     print('USERTEST: ', request.session['user'])
@@ -35,7 +35,7 @@ def send_log_in_request(request):
 
 
 def render_register_page(request):
-    return render(request, "register.html")
+    return render(request, "register.html", {'main_page_blocked': True})
 
 
 def send_register_request(request):
@@ -46,18 +46,24 @@ def send_register_request(request):
         return render(
             request,
             "register.html",
-            {"error": "Passwords do not match"}
+            {
+                "error": "Passwords do not match",
+                'main_page_blocked': True
+            }
         )
     if len(password) < 6:
         return render(
             request,
             "register.html",
-            {"error": "Password is too short"}
+            {
+                "error": "Password is too short",
+                'main_page_blocked': True
+            }
         )
     return render(
         request,
         "editAccountDetails.html",
-        {"email": email, "password": password, "link": '/accounts/pre_login/register_next/'}
+        {"email": email, "password": password, "link": '/accounts/pre_login/register_next/', 'main_page_blocked': True}
     )
 
 
@@ -91,7 +97,7 @@ def register_new_user(request):
             return render(
                 request,
                 "editAccountDetails.html",
-                {"error": "You're too young"}
+                {"error": "You're too young", 'main_page_blocked': True}
             )
 
         if 'user' in request.session.keys():
@@ -117,10 +123,10 @@ def register_new_user(request):
         return render(
             request,
             "editAccountDetails.html",
-            {"error": "Oj nie byczq -1"}
+            {"error": "Oj nie byczq -1", 'main_page_blocked': True}
         )
 
-    return redirect("/")
+    return redirect("/", {'main_page_blocked': True})
 
 
 def is_birth_date_ok(birth_date: datetime) -> bool:
@@ -163,7 +169,7 @@ def load_friends(request):
             if 'avatar' in friend:
                 avatar = friend['avatar']
             else:
-                avatar = 'SpiritGuard/static/gfx/avatars/default2.png'
+                avatar = 'https://firebasestorage.googleapis.com/v0/b/spiritguard-fc4df.appspot.com/o/default2.png?alt=media&token=c66bdd9d-43af-4719-be69-42662ee0c88a'
             friends.append(Friend(friend_id, friend['nickname'], friend['birth_date'], avatar, logs))
     else:
         friends = []
@@ -185,7 +191,7 @@ def load_profile(request):
     if 'avatar' in user_db:
         avatar = user_db['avatar']
     else:
-        avatar = 'SpiritGuard/static/gfx/avatars/default2.png'
+        avatar = 'https://firebasestorage.googleapis.com/v0/b/spiritguard-fc4df.appspot.com/o/default2.png?alt=media&token=c66bdd9d-43af-4719-be69-42662ee0c88a'
     chart_data = get_user_consumption_stats(local_id, get_users_data())
     x, y = list(chart_data.keys()), list(chart_data.values())
     chart = pgo.Figure(pgo.Scatter(x=x, y=y, name="current user"))
@@ -241,7 +247,7 @@ def get_logged_user_friends(request):
 
 def add_friend(request):
     new_id = request.GET.get('id')
-    db.child('users').child(request.session['user']['localId']).child('friends').set({new_id: '.'})
+    db.child('users').child(request.session['user']['localId']).child('friends').child(new_id).set('.')
     return redirect('/accounts/profile?id=' + new_id)
 
 
